@@ -31,6 +31,12 @@ class Settings(BaseSettings):
     CHUNK_OVERLAP: int = 100
     CHUNK_STORAGE_PATH: str = "storage/chunks"
 
+    # Embedding & Vector Database Settings
+    EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"
+    CHROMA_COLLECTION: str = "manual_chunks"
+    CHROMA_PATH: str = "storage/chromadb"
+
+
 
 
     model_config = SettingsConfigDict(
