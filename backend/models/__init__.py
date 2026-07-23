@@ -1,3 +1,0 @@
-"""
-Internal domain models package.
-"""

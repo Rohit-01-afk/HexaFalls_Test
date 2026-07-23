@@ -7,6 +7,7 @@ from backend.schemas.processing import ProcessedPage, ProcessResponse
 from backend.schemas.chunking import Chunk, ChunkGenerationResponse
 from backend.schemas.embedding import EmbeddingResponse
 from backend.schemas.search import SearchRequest, SearchResult, SearchResponse
+from backend.schemas.ask import AskRequest, SourceReference, AskResponse
 
 __all__ = [
     "UploadResponse",
@@ -18,7 +19,11 @@ __all__ = [
     "SearchRequest",
     "SearchResult",
     "SearchResponse",
+    "AskRequest",
+    "SourceReference",
+    "AskResponse",
 ]
+
 
 
 

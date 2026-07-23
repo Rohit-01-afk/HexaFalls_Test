@@ -83,112 +83,70 @@ Tasks
 
 # Phase 2 — PDF Processing
 
-This is the first major milestone.
-
-Tasks
-
-- [ ] Upload PDF
-- [ ] Validate file
-- [ ] Save original PDF
-- [ ] Extract page text
-- [ ] Generate page images
-- [ ] Store metadata
-
-Output
-
-Each uploaded manual should produce
-
-- Original PDF
-- Text
-- Page Images
-- Metadata
+- [x] Upload PDF
+- [x] Validate file
+- [x] Save original PDF
+- [x] Extract page text
+- [x] Generate page images
+- [x] Store metadata
 
 ---
 
 # Phase 3 — Chunking
 
-Tasks
-
-- [ ] Split pages into chunks
-- [ ] Preserve page numbers
-- [ ] Preserve document IDs
-- [ ] Store chunk metadata
-
-Output
-
-Chunk
-
-↓
-
-Page Number
-
-↓
-
-Document
+- [x] Split pages into chunks
+- [x] Preserve page numbers
+- [x] Preserve document IDs
+- [x] Store chunk metadata
 
 ---
 
 # Phase 4 — Embeddings
 
-Tasks
-
-- [ ] Load embedding model
-- [ ] Generate embeddings
-- [ ] Validate embedding quality
-- [ ] Store embeddings
+- [x] Load embedding model
+- [x] Generate embeddings
+- [x] Validate embedding quality
+- [x] Store embeddings
 
 ---
 
 # Phase 5 — Vector Database
 
-Tasks
-
-- [ ] Setup ChromaDB
-- [ ] Store embeddings
-- [ ] Store metadata
-- [ ] Implement similarity search
+- [x] Setup ChromaDB
+- [x] Store embeddings
+- [x] Store metadata
+- [x] Implement similarity search
 
 ---
 
 # Phase 6 — Retrieval Engine ⭐
 
-This is the most important milestone.
-
-Nothing else matters until this works.
-
-Tasks
-
-- [ ] Accept user query
-- [ ] Generate query embedding
-- [ ] Search vector database
-- [ ] Return Top-K chunks
-- [ ] Return page numbers
-- [ ] Return similarity scores
-
-Success Criteria
-
-Searching
-
-"How do I replace the cooling fan?"
-
-should immediately return
-
-- Relevant chunk
-- Correct page number
-- Relevant manual page
-
-without using any AI model.
+- [x] Accept user query
+- [x] Generate query embedding
+- [x] Search vector database
+- [x] Return Top-K chunks
+- [x] Return page numbers
+- [x] Return similarity scores
 
 ---
 
 # Phase 7 — Backend APIs
 
-Tasks
+- [x] Upload API
+- [x] Search API
+- [x] Chunking & Embedding API
+- [x] RAG Answer API (`POST /api/v1/ask`)
 
-- [ ] Upload API
-- [ ] Search API
-- [ ] Documents API
-- [ ] Page Image API
+---
+
+# Phase 8 — AI Integration (Sprint 5)
+
+- [x] Implement PromptBuilder with immutable Prompt dataclass
+- [x] Implement OllamaService (`gemma4:e4b`) with latency tracking
+- [x] Implement RAGService orchestrator
+- [x] Implement domain exception handling (504, 503, 500)
+- [x] Expose `POST /api/v1/ask`
+
 
 ---
 

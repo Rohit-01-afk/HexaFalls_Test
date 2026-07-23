@@ -40,6 +40,13 @@ class Settings(BaseSettings):
     DEFAULT_TOP_K: int = 5
     MAX_TOP_K: int = 20
 
+    # Ollama & RAG Settings
+    OLLAMA_HOST: str = "http://localhost:11434"
+    OLLAMA_MODEL: str = "gemma4:e4b"
+    OLLAMA_TIMEOUT: float = 30.0
+    RAG_TOP_K: int = 5
+
+
 
 
 

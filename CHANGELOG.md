@@ -1,26 +1,34 @@
-# CHANGELOG.md
-
 # Changelog
 
-All notable changes to the Blueprint Eye project will be documented in this file.
+## v0.1.0 - Semantic Retrieval Backend
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+### Added
+- PDF upload API
+- PDF processing pipeline
+- Chunk generation
+- SentenceTransformer embeddings
+- ChromaDB vector storage
+- Semantic search API
+- Search schemas
+- Search service
+- 32 unit tests
 
----
+### Improved
+- UUID validation
+- Specific exception handling
+- Configuration-driven search limits
 
-## [0.1.0] - 2026-07-23
+## v0.2.0 - Retrieval-Augmented Generation (RAG) Engine
 
-### Sprint 0 — Project Foundation
+### Added
+- RAG question answering API (`POST /api/v1/ask`)
+- Grounded prompt builder (`PromptBuilder`) with immutable `Prompt` model
+- Ollama service integration (`OllamaService`) for `gemma4:e4b` model communication & latency tracking
+- Pure RAG orchestrator (`RAGService`) linking retrieval, prompt construction, and generation
+- Grounded system prompt enforcing strict context adherence and fallback text
+- Domain exception handling (`OllamaTimeoutError`, `OllamaConnectionError`, `OllamaResponseError`)
+- RAG schemas (`AskRequest`, `SourceReference`, `AskResponse`)
+- 11 new RAG unit tests (43 total unit tests across full suite)
 
-#### Added
-- Complete backend folder structure matching `PROJECT_STRUCTURE.md` (`api`, `core`, `services`, `schemas`, `models`, `storage`, `utils`).
-- Complete frontend, storage, docs, and test directory hierarchy.
-- FastAPI entry point (`backend/main.py`) with CORS middleware and structured lifespan startup/shutdown logging.
-- Configuration module (`backend/core/config.py`) using Pydantic `BaseSettings` reading environment variables.
-- Structured Python logging setup (`backend/core/logging.py`).
-- Global exception handlers (`backend/core/exceptions.py`) enforcing standardized error response schema.
-- API v1 router and health endpoint (`backend/api/v1/endpoints/health.py`).
-- Root health endpoint (`GET /health`) returning `{"status": "ok"}`.
-- Requirements definition (`requirements.txt`), environment template (`.env.example`), and `.gitignore`.
-- Unit tests (`tests/unit/test_health.py`) for health check verification.
+### Status
+- Stable
