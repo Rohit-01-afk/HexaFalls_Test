@@ -20,6 +20,13 @@ class Settings(BaseSettings):
     MAX_UPLOAD_SIZE_MB: int = 50
     MANUAL_STORAGE_PATH: str = "storage/manuals"
 
+    # PDF Processing Settings
+    PAGE_IMAGE_FORMAT: str = "png"
+    PAGE_IMAGE_DPI: int = 150
+    PAGE_IMAGE_STORAGE_PATH: str = "storage/page_images"
+    METADATA_STORAGE_PATH: str = "storage/metadata"
+
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
