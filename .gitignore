@@ -57,3 +57,10 @@ htmlcov/
 
 # Antigravity artifacts
 .gemini/antigravity-ide/
+
+# ChromaDB runtime data
+storage/chromadb/*
+!storage/chromadb/.gitkeep
+
+storage/test_chroma/*
+!storage/test_chroma/.gitkeep
