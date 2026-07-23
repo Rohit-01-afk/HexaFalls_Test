@@ -5,6 +5,7 @@ Service layer for embedding generation using SentenceTransformers and vector ind
 import json
 import re
 import sys
+import uuid
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 from unittest.mock import MagicMock
@@ -26,8 +27,6 @@ except (ImportError, Exception):
 import chromadb
 from fastapi import HTTPException, status
 from sentence_transformers import SentenceTransformer
-
-
 
 from backend.core.config import settings
 from backend.core.logging import logger
@@ -66,8 +65,18 @@ class EmbeddingService:
             EmbeddingResponse containing total indexed chunks count and collection details.
 
         Raises:
-            HTTPException: 404 if chunk file missing, 400 if chunk dataset empty.
+            HTTPException: 400 for invalid UUID/corrupted JSON, 404 for missing chunk file.
         """
+        # Validate UUID format before using document_id for any filesystem operations
+        try:
+            uuid.UUID(str(document_id))
+        except (ValueError, TypeError, AttributeError):
+            logger.warning("Embedding failed: Invalid UUID format for document_id '%s'", document_id)
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid document_id format. Must be a valid UUID.",
+            )
+
         logger.info("Embedding generation started for document_id: %s", document_id)
 
         chunk_file = Path(settings.CHUNK_STORAGE_PATH) / f"{document_id}.json"
@@ -81,12 +90,19 @@ class EmbeddingService:
         try:
             with chunk_file.open("r", encoding="utf-8") as f:
                 chunk_data = json.load(f)
-        except Exception as err:
+        except json.JSONDecodeError as err:
             logger.warning("Embedding failed: Invalid chunk JSON for document_id '%s': %s", document_id, str(err))
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Chunk data file is corrupted or invalid.",
             ) from err
+        except OSError as err:
+            logger.warning("Embedding failed: Storage file error for document_id '%s': %s", document_id, str(err))
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Chunk data for document ID '{document_id}' not found. Please run chunking first.",
+            ) from err
+
 
         chunks = chunk_data.get("chunks")
         if not isinstance(chunks, list) or len(chunks) == 0:

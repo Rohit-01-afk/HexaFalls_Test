@@ -64,3 +64,8 @@ storage/chromadb/*
 
 storage/test_chroma/*
 !storage/test_chroma/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

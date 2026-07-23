@@ -5,6 +5,7 @@ Unit tests for Embedding Generation and Vector Indexing Engine endpoint and serv
 import json
 import re
 import sys
+import uuid
 from pathlib import Path
 from unittest.mock import MagicMock
 
@@ -27,9 +28,16 @@ from fastapi.testclient import TestClient
 from backend.core.config import settings
 from backend.main import app
 
-
-
 client = TestClient(app)
+
+
+def test_embed_invalid_uuid_format() -> None:
+    """Test 400 response when document_id is not a valid UUID format."""
+    response = client.post("/api/v1/embed/invalid_doc_id_string")
+    assert response.status_code == 400
+    data = response.json()
+    assert data["status"] == 400
+    assert "invalid document_id format" in data["error"].lower()
 
 
 def test_embed_missing_chunks(tmp_path: Path, monkeypatch) -> None:
@@ -42,7 +50,8 @@ def test_embed_missing_chunks(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(settings, "CHUNK_STORAGE_PATH", str(chunk_dir))
     monkeypatch.setattr(settings, "CHROMA_PATH", str(chroma_dir))
 
-    response = client.post("/api/v1/embed/non_existent_doc_id")
+    valid_uuid = str(uuid.uuid4())
+    response = client.post(f"/api/v1/embed/{valid_uuid}")
     assert response.status_code == 404
     data = response.json()
     assert data["status"] == 404
@@ -59,7 +68,7 @@ def test_embed_empty_chunks(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(settings, "CHUNK_STORAGE_PATH", str(chunk_dir))
     monkeypatch.setattr(settings, "CHROMA_PATH", str(chroma_dir))
 
-    doc_id = "doc_empty_chunks"
+    doc_id = str(uuid.uuid4())
     chunk_file = chunk_dir / f"{doc_id}.json"
     chunk_file.write_text(json.dumps({"document_id": doc_id, "chunks": []}), encoding="utf-8")
 
@@ -80,7 +89,7 @@ def test_embed_successful_indexing(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(settings, "CHUNK_STORAGE_PATH", str(chunk_dir))
     monkeypatch.setattr(settings, "CHROMA_PATH", str(chroma_dir))
 
-    doc_id = "doc_embed_123"
+    doc_id = str(uuid.uuid4())
     chunk_file = chunk_dir / f"{doc_id}.json"
 
     chunk_data = {
@@ -88,7 +97,7 @@ def test_embed_successful_indexing(tmp_path: Path, monkeypatch) -> None:
         "total_chunks": 2,
         "chunks": [
             {
-                "chunk_id": f"chunk_{doc_id}_1",
+                "chunk_id": str(uuid.uuid4()),
                 "document_id": doc_id,
                 "page_number": 1,
                 "text": "Disconnect the main power connector J1 before servicing the unit.",
@@ -97,7 +106,7 @@ def test_embed_successful_indexing(tmp_path: Path, monkeypatch) -> None:
                 "token_count": 10,
             },
             {
-                "chunk_id": f"chunk_{doc_id}_2",
+                "chunk_id": str(uuid.uuid4()),
                 "document_id": doc_id,
                 "page_number": 2,
                 "text": "Unscrew the four mounting bolts on the cooling fan module.",
@@ -130,7 +139,9 @@ def test_embed_duplicate_indexing(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(settings, "CHUNK_STORAGE_PATH", str(chunk_dir))
     monkeypatch.setattr(settings, "CHROMA_PATH", str(chroma_dir))
 
-    doc_id = "doc_duplicate_test"
+    doc_id = str(uuid.uuid4())
+    chunk_1_id = str(uuid.uuid4())
+    chunk_2_id = str(uuid.uuid4())
     chunk_file = chunk_dir / f"{doc_id}.json"
 
     chunk_data = {
@@ -138,7 +149,7 @@ def test_embed_duplicate_indexing(tmp_path: Path, monkeypatch) -> None:
         "total_chunks": 2,
         "chunks": [
             {
-                "chunk_id": f"chunk_{doc_id}_1",
+                "chunk_id": chunk_1_id,
                 "document_id": doc_id,
                 "page_number": 1,
                 "text": "First chunk text content.",
@@ -147,7 +158,7 @@ def test_embed_duplicate_indexing(tmp_path: Path, monkeypatch) -> None:
                 "token_count": 4,
             },
             {
-                "chunk_id": f"chunk_{doc_id}_2",
+                "chunk_id": chunk_2_id,
                 "document_id": doc_id,
                 "page_number": 1,
                 "text": "Second chunk text content.",
@@ -184,8 +195,8 @@ def test_embed_metadata_persistence(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setattr(settings, "CHUNK_STORAGE_PATH", str(chunk_dir))
     monkeypatch.setattr(settings, "CHROMA_PATH", str(chroma_dir))
 
-    doc_id = "doc_metadata_verify"
-    chunk_id = f"chunk_{doc_id}_1"
+    doc_id = str(uuid.uuid4())
+    chunk_id = str(uuid.uuid4())
     chunk_file = chunk_dir / f"{doc_id}.json"
 
     chunk_data = {
