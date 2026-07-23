@@ -5,9 +5,12 @@ __pycache__/
 *.so
 .Python
 env/
+venv/
+.venv/
+ENV/
 build/
-develop-eggs/
 dist/
+develop-eggs/
 downloads/
 eggs/
 .eggs/
@@ -20,23 +23,26 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-venv/
-.venv/
-ENV/
 
 # Environment variables
 .env
 .env.local
 
-# Storage (keep folder structure intact with .gitkeep)
+# Runtime storage (keep folder structure with .gitkeep)
 storage/manuals/*
 !storage/manuals/.gitkeep
+
 storage/page_images/*
 !storage/page_images/.gitkeep
-storage/embeddings/*
-!storage/embeddings/.gitkeep
+
 storage/metadata/*
 !storage/metadata/.gitkeep
+
+storage/chunks/*
+!storage/chunks/.gitkeep
+
+storage/embeddings/*
+!storage/embeddings/.gitkeep
 
 # IDEs
 .vscode/
@@ -49,5 +55,5 @@ storage/metadata/*
 .coverage
 htmlcov/
 
-# Antigravity artifacts & scratch
+# Antigravity artifacts
 .gemini/antigravity-ide/
