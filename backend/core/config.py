@@ -16,6 +16,10 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
     ALLOWED_ORIGINS: List[str] = ["*"]
 
+    # Upload Settings
+    MAX_UPLOAD_SIZE_MB: int = 50
+    MANUAL_STORAGE_PATH: str = "storage/manuals"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
