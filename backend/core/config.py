@@ -36,6 +36,11 @@ class Settings(BaseSettings):
     CHROMA_COLLECTION: str = "manual_chunks"
     CHROMA_PATH: str = "storage/chromadb"
 
+    # Search Settings
+    DEFAULT_TOP_K: int = 5
+    MAX_TOP_K: int = 20
+
+
 
 
 
