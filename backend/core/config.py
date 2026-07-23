@@ -26,6 +26,12 @@ class Settings(BaseSettings):
     PAGE_IMAGE_STORAGE_PATH: str = "storage/page_images"
     METADATA_STORAGE_PATH: str = "storage/metadata"
 
+    # Chunking Settings
+    CHUNK_SIZE: int = 500
+    CHUNK_OVERLAP: int = 100
+    CHUNK_STORAGE_PATH: str = "storage/chunks"
+
+
 
     model_config = SettingsConfigDict(
         env_file=".env",
