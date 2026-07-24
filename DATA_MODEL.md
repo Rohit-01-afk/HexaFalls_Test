@@ -1,224 +1,84 @@
-# DATA_MODEL.md
+# Blueprint Eye Data Model Specification
 
-# Blueprint Eye
-## Data Model Specification
-
-Version: 1.0
+Version: v0.3.5 (Sprint 6.5 — Answer Generation Layer Stabilization)
 
 ---
 
-# Purpose
+# Core Entities
 
-This document defines every data entity used throughout the system.
-
-All modules must use these models consistently.
-
-No module should invent additional fields unless this document is updated.
-
----
-
-# Entity Relationship Diagram
-
-```
-                Document
-               /        \
-              /          \
-          Page           Chunk
-             \            /
-              \          /
-              Search Result
-```
-
-A Document owns many Pages.
-
-A Document owns many Chunks.
-
-Every Chunk belongs to exactly one Page.
-
-Every Page belongs to exactly one Document.
-
----
-
-# Document
-
+## Document
 Represents an uploaded technical manual.
+- `document_id`: UUID
+- `filename`: String
+- `total_pages`: Integer
+- `file_size_bytes`: Integer
+- `upload_timestamp`: String (ISO-8601)
 
-Fields
-
-| Field | Type | Description |
-|--------|------|-------------|
-| document_id | UUID | Unique document identifier |
-| filename | String | Original filename |
-| file_size | Integer | Size in bytes |
-| total_pages | Integer | Number of pages |
-| upload_time | DateTime | Upload timestamp |
-| processing_status | Enum | uploaded / processing / completed / failed |
-
-Example
-
-```json
-{
-  "document_id": "doc_001",
-  "filename": "service_manual.pdf",
-  "total_pages": 348,
-  "processing_status": "completed"
-}
-```
+## Chunk
+Searchable text unit extracted from a manual page.
+- `chunk_id`: UUID
+- `document_id`: UUID
+- `page_number`: Integer (1-indexed)
+- `text`: String
+- `score`: Float (Cosine similarity score)
 
 ---
 
-# Page
+# RAG & Observability Entities (Sprint 6.5)
 
-Represents one PDF page.
+## SourceReference
+Reference metadata for a supporting source chunk.
+- `page`: Integer (1-indexed page number containing the chunk)
+- `chunk_id`: String (UUID of the source chunk)
+- `score`: Float (Similarity score)
+- `document_id`: Optional[String] (UUID of the parent document)
+- `preview`: Optional[String] (Text snippet preview capped by `RAG_MAX_PREVIEW_CHARS`, default 250)
 
-Fields
+## RetrievalDiagnostics
+Diagnostic statistics for the retrieval and filtering pipeline.
+- `raw_count`: Integer (Number of candidate chunks from vector search)
+- `deduplicated_count`: Integer (Count of unique chunks after deduplication)
+- `filtered_count`: Integer (Count of chunks meeting score threshold)
+- `returned_count`: Integer (Final count of chunks included in prompt context)
+- `confidence`: String (`"High"`, `"Medium"`, `"Low"`, `"None"`)
+- `filter_reason`: Optional[String] (`"empty_search_results"`, `"filtered_below_threshold"`, `"max_context_chars_reached"`, `null`)
+- `similarity_threshold`: Float (Configured minimum score threshold or relaxed soft cutoff)
+- `top_k`: Integer (Configured Top-K limit)
+- `max_context_chars`: Integer (Configured character limit)
 
-| Field | Type |
-|--------|------|
-| page_id | UUID |
-| document_id | UUID |
-| page_number | Integer |
-| image_path | String |
+## RetrievalMetrics
+Pipeline latency execution breakdown in milliseconds.
+- `search_ms`: Float (Vector search duration)
+- `filter_ms`: Float (Filtering & confidence calculation duration)
+- `prompt_ms`: Float (Prompt construction & context formatting duration)
+- `generation_ms`: Float (Ollama LLM generation duration)
+- `total_ms`: Float (Total request processing duration)
 
-Example
+## Answer Generation Configuration (Sprint 6.5)
+Configuration parameters governing prompt construction and soft-threshold fallback.
+- `RAG_ENABLE_SOFT_THRESHOLD`: Boolean (Enable/disable soft threshold fallback, default `True`)
+- `RAG_SOFT_THRESHOLD_MARGIN`: Float (Similarity threshold relaxation margin, default `0.05`)
+- `RAG_INCLUDE_PAGE_HEADERS`: Boolean (Include formatted delimiter headers with page and similarity, default `True`)
+- `RAG_MAX_PREVIEW_CHARS`: Integer (Character limit for SourceReference previews, default `250`)
 
-```json
-{
-    "page_number":18,
-    "image_path":"storage/page_images/doc001/page18.png"
-}
-```
+## SearchRequest
+Request payload for semantic vector search.
+- `query`: String (Search query)
+- `top_k`: Optional[Integer] (Maximum results cap)
+- `document_id`: Optional[String] (Optional document UUID to filter vector search results by manual)
 
----
+## AskRequest
+Request payload for RAG question answering.
+- `question`: String (User question)
+- `document_id`: Optional[String] (Optional document UUID to filter RAG query by manual)
 
-# Chunk
+## AskResponse
+Top-level payload returned by `/api/v1/ask`.
 
-Small searchable text unit.
+- `question`: String (User question)
+- `answer`: String (Grounded answer or fallback message)
+- `sources`: List[SourceReference] (Source attribution references)
+- `confidence`: Optional[String] (Retrieval confidence rating: `"High"`, `"Medium"`, `"Low"`, `"None"`)
+- `diagnostics`: Optional[RetrievalDiagnostics] (Filtering diagnostic statistics)
+- `metrics`: Optional[RetrievalMetrics] (Latency performance breakdown)
 
-Fields
-
-| Field | Type |
-|--------|------|
-| chunk_id | UUID |
-| document_id | UUID |
-| page_number | Integer |
-| text | String |
-| embedding | Vector |
-| token_count | Integer |
-
-Example
-
-```json
-{
-    "chunk_id":"chunk_18_4",
-    "page_number":18,
-    "text":"Disconnect cable J7 before removing the fan."
-}
-```
-
----
-
-# Query
-
-Represents a user search.
-
-Fields
-
-| Field | Type |
-|--------|------|
-| query | String |
-| embedding | Vector |
-
----
-
-# Search Result
-
-Returned by semantic retrieval.
-
-Fields
-
-| Field | Type |
-|--------|------|
-| chunk | Chunk |
-| similarity_score | Float |
-| page_number | Integer |
-| image_path | String |
-
-Example
-
-```json
-{
-  "page_number":18,
-  "similarity_score":0.94
-}
-```
-
----
-
-# Processing Pipeline Objects
-
-## Extracted Page
-
-```
-Document
-↓
-
-Page
-
-↓
-
-Text
-```
-
----
-
-## Embedded Chunk
-
-```
-Chunk
-
-↓
-
-Embedding
-
-↓
-
-Vector Database
-```
-
----
-
-# Metadata Rules
-
-Every Chunk MUST know
-
-- document_id
-- page_number
-
-Every Page MUST know
-
-- document_id
-
-No orphan records are allowed.
-
----
-
-# Future Compatibility
-
-Future versions may extend
-
-Document
-
-↓
-
-Workspace
-
-↓
-
-Organization
-
-↓
-
-User Permissions
-
-without changing current models.

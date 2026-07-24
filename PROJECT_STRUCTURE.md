@@ -85,24 +85,25 @@ Rules
 
 Contains business logic.
 
-Examples
+Examples:
 
-pdf_processor.py
+- pdf_processing_service.py
+- chunking_service.py
+- embedding_service.py
+- search_service.py
+- retrieval_filter.py
+- prompt_builder.py
+- ollama_service.py
+- rag_service.py
 
-chunker.py
-
-embedding_service.py
-
-retriever.py
-
-image_service.py
-
-Responsibilities
+Responsibilities:
 
 - PDF processing
-- Retrieval
-- Embedding generation
-- Image generation
+- Vector search & semantic retrieval
+- Retrieval candidate filtering, thresholding & confidence evaluation
+- Pure context formatting, whitespace normalization & grounded system prompt construction (`prompt_builder.py`)
+- Local LLM generation (`ollama_service.py`)
+- RAG workflow orchestration, soft-threshold fallback & response assembly (`rag_service.py`)
 
 ---
 

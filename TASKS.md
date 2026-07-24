@@ -147,10 +147,33 @@ Tasks
 - [x] Implement domain exception handling (504, 503, 500)
 - [x] Expose `POST /api/v1/ask`
 
-
 ---
 
-# Phase 8 — Frontend Integration
+# Phase 9 — Retrieval Intelligence & Observability (Sprint 6 - v0.3.0)
+
+- [x] Implement `RetrievalFilter` service stage (deduplication, score thresholding, score sorting, Top-K capping, context chars capping)
+- [x] Implement configurable retrieval settings (`RAG_TOP_K`, `RAG_SIMILARITY_THRESHOLD`, `RAG_MAX_CONTEXT_CHARS`)
+- [x] Implement deterministic retrieval confidence evaluation (`High`, `Medium`, `Low`, `None`)
+- [x] Implement differentiated 3-case empty/threshold retrieval fallback responses
+- [x] Extend `SourceReference` with rich metadata (`document_id`, `preview`)
+- [x] Implement strongly typed `RetrievalDiagnostics` and `RetrievalMetrics` Pydantic models
+- [x] Standardize per-stage performance timing metrics (`search_ms`, `filter_ms`, `prompt_ms`, `generation_ms`, `total_ms`)
+- [x] Expose service dependency injection on `RAGService.ask`
+- [x] Comprehensive unit test suite in `tests/unit/test_retrieval_filter.py` and `tests/unit/test_rag.py` (52 passing tests)
+
+# Phase 10 — Answer Generation Layer Stabilization (Sprint 6.5 - v0.3.5) ⭐
+
+- [x] Redesign `SYSTEM_PROMPT` in `PromptBuilder` following Prompt Design Principles (deterministic, no chain-of-thought, no hallucination, support distinction)
+- [x] Implement pure context preparation formatting in `PromptBuilder` (whitespace normalization, chunk deduplication, header delimiters)
+- [x] Implement configurable answer-generation settings (`RAG_ENABLE_SOFT_THRESHOLD`, `RAG_SOFT_THRESHOLD_MARGIN`, `RAG_INCLUDE_PAGE_HEADERS`, `RAG_MAX_PREVIEW_CHARS`)
+- [x] Implement soft-threshold retrieval fallback in `RAGService` passing through `RetrievalFilter` with relaxed threshold margin
+- [x] Preserve response assembly inside `RAGService` without creating external formatters
+- [x] Extend source preview truncation to configurable `RAG_MAX_PREVIEW_CHARS` (250 chars)
+- [x] Comprehensive unit test suite in `tests/unit/test_prompt_builder.py` and `tests/unit/test_rag.py` (61 passing tests)
+- [x] Full documentation synchronization across canonical files and `docs/`
+
+# Phase 11 — Frontend Integration
+
 
 Only begin after retrieval works.
 

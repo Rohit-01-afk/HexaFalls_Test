@@ -162,7 +162,7 @@ Chunk ID
 
 ---
 
-# Retrieval Rules
+# Retrieval & Generation Rules
 
 Never retrieve entire documents.
 
@@ -172,7 +172,22 @@ Preserve metadata.
 
 Similarity scores should be returned.
 
+PromptBuilder Responsibilities:
+- Receive pre-filtered chunks.
+- Clean, normalize, and organize context blocks.
+- Build immutable Prompt objects.
+- MUST NEVER perform retrieval, chunk ranking, similarity calculation, confidence evaluation, threshold filtering, or fallback decisions.
+
+RAGService Response Assembly:
+- Orchestrate retrieval, filtering, prompt generation, LLM generation, and response payload assembly.
+- Keep response formatting and source reference assembly inside RAGService without creating external formatter components.
+
+Soft-Threshold Behavior:
+- Soft-threshold fallback may ONLY relax the similarity threshold cutoff parameter.
+- Must NEVER bypass RetrievalFilter deduplication, score sorting, Top-K limits, or max context character caps.
+
 ---
+
 
 # Image Rules
 

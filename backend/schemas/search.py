@@ -11,15 +11,18 @@ class SearchRequest(BaseModel):
 
     query: str = Field(..., description="Natural-language search query string")
     top_k: Optional[int] = Field(default=None, description="Maximum number of top results to return")
+    document_id: Optional[str] = Field(default=None, description="Optional UUID to filter search results by document")
 
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
                 "query": "how do I replace the cooling fan?",
                 "top_k": 5,
+                "document_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
             }
         }
     )
+
 
 
 class SearchResult(BaseModel):

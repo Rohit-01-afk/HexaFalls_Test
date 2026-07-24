@@ -45,6 +45,16 @@ class Settings(BaseSettings):
     OLLAMA_MODEL: str = "gemma4:e4b"
     OLLAMA_TIMEOUT: float = 30.0
     RAG_TOP_K: int = 5
+    RAG_SIMILARITY_THRESHOLD: float = 0.45
+
+    RAG_MAX_CONTEXT_CHARS: int = 12000
+
+    # Answer Generation & Soft Threshold Settings (Sprint 6.5)
+    RAG_ENABLE_SOFT_THRESHOLD: bool = True
+    RAG_SOFT_THRESHOLD_MARGIN: float = 0.05
+    RAG_INCLUDE_PAGE_HEADERS: bool = True
+    RAG_MAX_PREVIEW_CHARS: int = 250
+
 
 
 

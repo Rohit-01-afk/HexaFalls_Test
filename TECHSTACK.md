@@ -1,8 +1,6 @@
-# TECHSTACK.md
-
 # Blueprint Eye Technology Stack
 
-Version: 1.0
+Version: v0.3.5 (Sprint 6.5 — Answer Generation Layer Stabilization)
 
 ---
 

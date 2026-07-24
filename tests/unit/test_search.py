@@ -213,3 +213,65 @@ def test_search_ordering_and_top_k_limit(tmp_path: Path, monkeypatch) -> None:
 
     # Verify score descending order: results[0].score >= results[1].score
     assert results[0]["score"] >= results[1]["score"]
+
+
+def test_search_with_document_id_filter(tmp_path: Path, monkeypatch) -> None:
+    """Test optional document_id filter restricts search results strictly to the specified document."""
+    chunk_dir = tmp_path / "chunks"
+    chroma_dir = tmp_path / "chromadb"
+    chunk_dir.mkdir()
+    chroma_dir.mkdir()
+
+    monkeypatch.setattr(settings, "CHUNK_STORAGE_PATH", str(chunk_dir))
+    monkeypatch.setattr(settings, "CHROMA_PATH", str(chroma_dir))
+
+    doc1_id = str(uuid.uuid4())
+    doc2_id = str(uuid.uuid4())
+
+    chunk1_data = {
+        "document_id": doc1_id,
+        "total_chunks": 1,
+        "chunks": [
+            {
+                "chunk_id": str(uuid.uuid4()),
+                "document_id": doc1_id,
+                "page_number": 1,
+                "text": "Engineering Mathematics - I syllabus covers Calculus and Linear Algebra.",
+                "start_char": 0,
+                "end_char": 70,
+                "token_count": 10,
+            }
+        ],
+    }
+
+    chunk2_data = {
+        "document_id": doc2_id,
+        "total_chunks": 1,
+        "chunks": [
+            {
+                "chunk_id": str(uuid.uuid4()),
+                "document_id": doc2_id,
+                "page_number": 1,
+                "text": "Data Communications and Networking manual covers TCP/IP and Packet Tracer.",
+                "start_char": 0,
+                "end_char": 73,
+                "token_count": 10,
+            }
+        ],
+    }
+
+    (chunk_dir / f"{doc1_id}.json").write_text(json.dumps(chunk1_data), encoding="utf-8")
+    (chunk_dir / f"{doc2_id}.json").write_text(json.dumps(chunk2_data), encoding="utf-8")
+
+    client.post(f"/api/v1/embed/{doc1_id}")
+    client.post(f"/api/v1/embed/{doc2_id}")
+
+    # Search filtering explicitly by doc1_id
+    response = client.post("/api/v1/search", json={"query": "syllabus content", "top_k": 5, "document_id": doc1_id})
+    assert response.status_code == 200
+    data = response.json()
+
+    assert data["count"] == 1
+    assert data["results"][0]["document_id"] == doc1_id
+    assert "Engineering Mathematics" in data["results"][0]["text"]
+

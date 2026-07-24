@@ -79,8 +79,9 @@ def test_prompt_builder_construction() -> None:
 
     assert prompt.system == SYSTEM_PROMPT
     assert prompt.user == "How to remove cooling fan?"
-    assert "[Page 18]\nDisconnect cable J7 before removing cooling fan." in prompt.context
-    assert "[Page 19]\nUnscrew the four mounting bolts." in prompt.context
+    assert "==========\nPage 18\nSimilarity: 0.95\nContent:\nDisconnect cable J7 before removing cooling fan." in prompt.context
+    assert "==========\nPage 19\nSimilarity: 0.88\nContent:\nUnscrew the four mounting bolts." in prompt.context
+
 
 
 # --- 2. OllamaService Unit Tests ---
@@ -271,3 +272,233 @@ async def test_ask_ollama_timeout_504() -> None:
         data = response.json()
         assert data["status"] == 504
         assert "timed out" in data["error"].lower()
+
+
+@pytest.mark.anyio
+async def test_ask_below_threshold_fallback_soft_disabled() -> None:
+    """Test 200 OK threshold fallback response when all retrieved chunks are below soft threshold or soft threshold disabled."""
+    mock_search_res = SearchResponse(
+        query="obscure part",
+        count=1,
+        results=[
+            SearchResult(
+                document_id="doc-1",
+                chunk_id="c-low",
+                page_number=5,
+                score=0.20,  # Far below threshold (0.45) and soft margin (0.45 - 0.05 = 0.40)
+                text="Irrelevant text snippet.",
+            )
+        ],
+    )
+
+    with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search:
+        mock_search.return_value = mock_search_res
+
+        response = client.post("/api/v1/ask", json={"question": "obscure part"})
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data["question"] == "obscure part"
+        assert data["answer"] == "I could not find sufficiently relevant information in the manual."
+        assert data["sources"] == []
+        assert data["confidence"] == "None"
+        assert data["diagnostics"]["filter_reason"] == "filtered_below_threshold"
+        assert data["metrics"]["total_ms"] >= 0
+
+
+@pytest.mark.anyio
+async def test_ask_soft_threshold_fallback_success() -> None:
+    """Test soft threshold retrieval fallback when best score is within configurable margin (0.40 - 0.45)."""
+    doc_id = str(uuid.uuid4())
+    chunk_id = str(uuid.uuid4())
+
+    # Candidate chunk score 0.42 is below default RAG_SIMILARITY_THRESHOLD (0.45), but >= soft cutoff (0.40)
+    mock_search_res = SearchResponse(
+        query="marginal topic",
+        count=1,
+        results=[
+            SearchResult(
+                document_id=doc_id,
+                chunk_id=chunk_id,
+                page_number=42,
+                score=0.42,
+                text="Marginal procedure information text.",
+            )
+        ],
+    )
+
+    with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
+        "backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock
+    ) as mock_gen:
+        mock_search.return_value = mock_search_res
+        mock_gen.return_value = "Marginal procedure summary answer."
+
+        response = client.post("/api/v1/ask", json={"question": "marginal topic"})
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data["question"] == "marginal topic"
+        assert data["answer"] == "Marginal procedure summary answer."
+        assert data["confidence"] == "Low"
+        assert len(data["sources"]) == 1
+        assert data["sources"][0]["page"] == 42
+        assert data["sources"][0]["score"] == 0.42
+        assert data["sources"][0]["document_id"] == doc_id
+
+
+@pytest.mark.anyio
+async def test_ask_soft_threshold_disabled_behavior() -> None:
+    """Test threshold fallback returned when soft threshold feature is toggled off."""
+    mock_search_res = SearchResponse(
+        query="marginal topic",
+        count=1,
+        results=[
+            SearchResult(
+                document_id="doc-1",
+                chunk_id="c-1",
+                page_number=42,
+                score=0.42,
+                text="Marginal procedure text.",
+            )
+        ],
+    )
+
+    with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
+        "backend.core.config.settings.RAG_ENABLE_SOFT_THRESHOLD", False
+    ):
+        mock_search.return_value = mock_search_res
+
+        response = client.post("/api/v1/ask", json={"question": "marginal topic"})
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data["answer"] == "I could not find sufficiently relevant information in the manual."
+        assert data["confidence"] == "None"
+        assert data["sources"] == []
+
+
+
+@pytest.mark.anyio
+async def test_ask_metrics_diagnostics_and_rich_metadata() -> None:
+    """Test confidence, diagnostics, performance metrics, and rich source metadata in successful response."""
+    doc_id = str(uuid.uuid4())
+    chunk_id = str(uuid.uuid4())
+
+    mock_search_res = SearchResponse(
+        query="cooling fan assembly",
+        count=1,
+        results=[
+            SearchResult(
+                document_id=doc_id,
+                chunk_id=chunk_id,
+                page_number=18,
+                score=0.92,
+                text="Disconnect cable J7 before removing cooling fan.",
+            )
+        ],
+    )
+
+    with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
+        "backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock
+    ) as mock_gen:
+        mock_search.return_value = mock_search_res
+        mock_gen.return_value = "Unplug cable J7 first."
+
+        response = client.post("/api/v1/ask", json={"question": "cooling fan assembly"})
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data["confidence"] == "High"
+        assert data["diagnostics"]["returned_count"] == 1
+        assert "search_ms" in data["metrics"]
+        assert "filter_ms" in data["metrics"]
+        assert "prompt_ms" in data["metrics"]
+        assert "generation_ms" in data["metrics"]
+        assert "total_ms" in data["metrics"]
+
+        # Check rich source metadata
+        source = data["sources"][0]
+        assert source["document_id"] == doc_id
+        assert "Disconnect cable J7" in source["preview"]
+
+
+@pytest.mark.anyio
+async def test_ask_with_document_id_filter() -> None:
+    """Test POST /api/v1/ask forwards optional document_id filter to SearchService."""
+    doc_id = str(uuid.uuid4())
+    chunk_id = str(uuid.uuid4())
+
+    mock_search_res = SearchResponse(
+        query="Engineering Mathematics",
+        count=1,
+        results=[
+            SearchResult(
+                document_id=doc_id,
+                chunk_id=chunk_id,
+                page_number=14,
+                score=0.91,
+                text="Module I: Linear Algebra and Calculus.",
+            )
+        ],
+    )
+
+    with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
+        "backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock
+    ) as mock_gen:
+        mock_search.return_value = mock_search_res
+        mock_gen.return_value = "Engineering Mathematics-I covers Linear Algebra and Calculus."
+
+        response = client.post("/api/v1/ask", json={"question": "Engineering Mathematics", "document_id": doc_id})
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data["question"] == "Engineering Mathematics"
+        assert data["sources"][0]["document_id"] == doc_id
+        
+        # Verify SearchService.search was called with SearchRequest containing document_id
+        called_req = mock_search.call_args[0][0]
+        assert called_req.document_id == doc_id
+
+
+@pytest.mark.anyio
+async def test_ask_query_intent_diagnostics() -> None:
+    """Test POST /api/v1/ask includes query intent diagnostics (intent, intent_confidence, matched_keywords, intent_reason)."""
+    doc_id = str(uuid.uuid4())
+    chunk_id = str(uuid.uuid4())
+
+    mock_search_res = SearchResponse(
+        query="How do I replace the cooling fan?",
+        count=1,
+        results=[
+            SearchResult(
+                document_id=doc_id,
+                chunk_id=chunk_id,
+                page_number=18,
+                score=0.95,
+                text="Disconnect cable J7 before replacing cooling fan.",
+            )
+        ],
+    )
+
+    with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
+        "backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock
+    ) as mock_gen:
+        mock_search.return_value = mock_search_res
+        mock_gen.return_value = "Disconnect cable J7 first."
+
+        response = client.post("/api/v1/ask", json={"question": "How do I replace the cooling fan?"})
+
+        assert response.status_code == 200
+        data = response.json()
+        assert "diagnostics" in data
+        diag = data["diagnostics"]
+        assert diag["intent"] == "procedure"
+        assert diag["intent_confidence"] >= 0.85
+        assert "how do i" in diag["matched_keywords"]
+        assert "replace" in diag["matched_keywords"]
+        assert "intent_reason" in diag
+        assert "procedure" in diag["intent_reason"]
+
+
+
+

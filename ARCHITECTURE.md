@@ -1,9 +1,6 @@
-# ARCHITECTURE.md
+# Blueprint Eye System Architecture Document
 
-# Blueprint Eye
-## System Architecture Document
-
-Version: 1.0 (MVP)
+Version: v0.3.5 (Sprint 6.5 — Answer Generation Layer Stabilization)
 
 ---
 
@@ -11,623 +8,108 @@ Version: 1.0 (MVP)
 
 Blueprint Eye is an enterprise-grade technical manual retrieval platform.
 
-The primary objective is **accurate information retrieval** from technical PDF manuals.
-
-Version 1 intentionally focuses on retrieval rather than AI-generated responses.
-
-Future versions will integrate LLMs and multimodal reasoning without changing the core retrieval architecture.
+The primary objective is **accurate document retrieval** and **grounded technical answer generation** with strict explainability, performance observability, and deterministic retrieval confidence.
 
 ---
 
-# 2. High-Level Architecture
+# 2. High-Level System Architecture
 
-```
-                    USER
-                      │
-                      ▼
-              Next.js Frontend
-                      │
-              REST API (FastAPI)
-                      │
-      ┌───────────────┴────────────────┐
-      │                                │
-      ▼                                ▼
-Document Processing             Query Processing
-      │                                │
-      ▼                                ▼
-Storage Layer                 Retrieval Layer
-      │                                │
-      └───────────────┬────────────────┘
-                      ▼
-                 Response Builder
-                      │
-                      ▼
-                Frontend Display
+```text
+                                USER
+                                 │
+                                 ▼
+                         REST API (FastAPI)
+                                 │
+                 ┌───────────────┴────────────────┐
+                 │                                │
+                 ▼                                ▼
+       Ingestion & Processing              RAG Retrieval Pipeline
+       (PDF Processor, Chunker,            (SearchService, RetrievalFilter,
+        Embedding Generator)               PromptBuilder, OllamaService)
+                 │                                │
+                 ▼                                ▼
+       ChromaDB Vector Store               AskResponse Payload
 ```
 
 ---
 
-# 3. System Workflow
+# 3. RAG Retrieval Pipeline Architecture (Sprint 6.5)
 
-```
-Upload PDF
-    │
-    ▼
-Extract Text
-    │
-    ▼
-Generate Page Images
-    │
-    ▼
-Chunk Text
-    │
-    ▼
-Generate Embeddings
-    │
-    ▼
-Store Embeddings
-    │
-    ▼
-User Question
-    │
-    ▼
-Query Processor
-    │
-    ├─────────────┐
-    │             │
-    ▼             ▼
-Text Search   Visual Search
-    │             │
-    └──────┬──────┘
-           ▼
-Display Results
+```text
+POST /api/v1/ask
+        │
+        ▼
+   AskRequest
+        │
+        ▼
+   RAGService ────────► SearchService (ChromaDB Vector Retrieval)
+   (Response  │
+    Assembly) ├─────────────► RetrievalFilter (Deduplication, Score Thresholding, Score Sorting,
+              │                                 Top-K Limiting, Context Chars Capping, Confidence)
+              │
+              ├─────────────► PromptBuilder (Context Preparation, Whitespace Normalization & Grounded System Prompt)
+              │
+              └─────────────► OllamaService (Local Gemma LLM Generation)
+              │
+              ▼
+   AskResponse (Grounded Answer, Rich Source References, Confidence, Diagnostics, Performance Metrics)
 ```
 
 ---
 
-# 4. Architectural Principles
+# 4. Core Service Responsibilities
 
-## Separation of Concerns
-
-Each layer has one responsibility.
-
-Processing
-
-↓
-
-Storage
-
-↓
-
-Retrieval
-
-↓
-
-Presentation
-
-No layer should depend on frontend implementation.
+| Service | Primary Responsibility | Architectural Rule |
+| :--- | :--- | :--- |
+| `SearchService` | Query embedding & ChromaDB vector similarity search | Single source of truth for semantic vector retrieval |
+| `RetrievalFilter` | Chunk deduplication, score thresholding, score sorting, Top-K capping, context character capping, and confidence evaluation | Contains ONLY retrieval decision logic. Independent of Ollama & API layer |
+| `PromptBuilder` | Pure context formatting, whitespace normalization, header formatting, and grounded system prompt construction | Receives pre-filtered context. MUST NEVER make retrieval, ranking, or threshold decisions |
+| `OllamaService` | HTTP communication with local Ollama LLM server | Model generation only. No retrieval logic leakage |
+| `RAGService` | Pipeline orchestration, soft-threshold fallback logic, response assembly, and latency metrics collection | Orchestrator layer. Keeps response assembly inside RAGService without external formatters |
 
 ---
 
-## Modular Design
-
-Every module must be replaceable.
-
-Example:
-
-Embedding Model
-
-Current:
-
-Sentence Transformers
-
-Future:
-
-BGE
-E5
-OpenAI
-Gemini Embeddings
-
-No code outside the embedding module should change.
-
----
-
-## Retrieval First
-
-Retrieval is the core of the system.
-
-The retrieval engine must work independently of any AI model.
-
-LLMs should consume retrieval results—not replace retrieval.
-
----
-
-# 5. Layers
-
-## Layer 1 — Frontend
-
-Responsibilities
-
-- Upload manuals
-- Ask questions
-- Display retrieved chunks
-- Display manual pages
-- Show search progress
-
-Technology
-
-- Next.js
-- React
-- Tailwind CSS
-
----
-
-## Layer 2 — API Layer
-
-Responsibilities
-
-- Receive requests
-- Validate inputs
-- Return responses
-
-Technology
-
-FastAPI
-
-No business logic inside API routes.
-
----
-
-## Layer 3 — Processing Layer
-
-Modules
-
-PDF Processor
-
-Chunk Generator
-
-Embedding Generator
-
-Image Generator
-
-Metadata Generator
-
-Responsibilities
-
-Convert uploaded manual into searchable assets.
-
----
-
-## Layer 4 — Storage Layer
-
-Stores
-
-Original PDF
-
-Page Images
-
-Embeddings
-
-Metadata
-
-Current storage
-
-Local Filesystem
-
-ChromaDB
-
-Future
-
-S3
-
-Azure Blob
-
-GCS
-
----
-
-## Layer 5 — Retrieval Layer
-
-Responsibilities
-
-Receive user query
-
-↓
-
-Retrieve relevant chunks
-
-↓
-
-Retrieve relevant pages
-
-↓
-
-Return structured results
-
-This layer never generates answers.
-
----
-
-# 6. Backend Modules
-
-```
-backend/
-
-api/
-    upload.py
-    search.py
-
-services/
-    pdf_processor.py
-    chunker.py
-    embeddings.py
-    retriever.py
-    image_store.py
-    intent_router.py
-
-models/
-
-schemas/
-
-core/
-
-utils/
-
-storage/
-
-main.py
+# 5. Retrieval & Soft-Threshold Decision Pipeline (`RetrievalFilter`)
+
+```text
+Raw Search Candidates
+         │
+         ▼
+  Deduplication (Retain highest score per chunk_id)
+         │
+         ▼
+  Score Thresholding (Filter out score < RAG_SIMILARITY_THRESHOLD or soft cutoff)
+         │
+         ▼
+  Score Sorting (Sort descending by similarity score)
+         │
+         ▼
+  Top-K Limiting (Cap to top RAG_TOP_K chunks)
+         │
+         ▼
+  Max Context Chars Capping (Preserve chunk boundaries under RAG_MAX_CONTEXT_CHARS)
+         │
+         ▼
+  Deterministic Confidence Evaluation ("High", "Medium", "Low", "None")
 ```
 
 ---
 
-# 7. Frontend Modules
+# 6. Performance Observability & Metrics
 
-```
-frontend/
-
-app/
-
-components/
-
-hooks/
-
-services/
-
-types/
-
-styles/
-```
+Every RAG request measures latency breakdown in milliseconds (`RetrievalMetrics`):
+- `search_ms`: Vector search execution time
+- `filter_ms`: Filtering, sorting, and confidence calculation time
+- `prompt_ms`: Prompt construction & context formatting time
+- `generation_ms`: Local LLM text generation time
+- `total_ms`: End-to-end request processing time
 
 ---
 
-# 8. Data Model
+# 7. Non-Goals & Future Compatibility
 
-## Document
+Sprint 6.5 preserves clear separation of concerns and focuses strictly on stabilizing the generation layer.
 
-```
-Document
-
-document_id
-
-filename
-
-upload_time
-```
-
----
-
-## Page
-
-```
-Page
-
-page_number
-
-image_path
-
-document_id
-```
-
----
-
-## Chunk
-
-```
-Chunk
-
-chunk_id
-
-document_id
-
-page_number
-
-text
-
-embedding
-```
-
----
-
-# 9. Query Flow
-
-```
-User Query
-
-↓
-
-Embedding Generator
-
-↓
-
-Vector Search
-
-↓
-
-Top-K Chunks
-
-↓
-
-Frontend
-```
-
----
-
-# 10. Visual Flow
-
-```
-User Query
-
-↓
-
-Identify Page
-
-↓
-
-Load PNG
-
-↓
-
-Display Image
-```
-
----
-
-# 11. API Design
-
-## POST /upload
-
-Input
-
-PDF
-
-Returns
-
-Document ID
-
-Processing Status
-
----
-
-## GET /documents
-
-Returns
-
-Uploaded Manuals
-
----
-
-## POST /search
-
-Input
-
-Question
-
-Returns
-
-Relevant Chunks
-
-Page Numbers
-
-Similarity Scores
-
----
-
-## GET /page/{document_id}/{page_number}
-
-Returns
-
-PNG Page Image
-
----
-
-# 12. Storage Layout
-
-```
-storage/
-
-manuals/
-
-page_images/
-
-embeddings/
-
-metadata/
-```
-
----
-
-# 13. Retrieval Pipeline
-
-```
-Question
-      │
-      ▼
-Embedding Generator
-      │
-      ▼
-Vector Search
-      │
-      ▼
-Top-K Chunks
-      │
-      ▼
-Response Builder
-```
-
----
-
-# 14. Future AI Integration
-
-Version 2
-
-```
-Retriever
-
-↓
-
-LLM
-
-↓
-
-Generated Answer
-```
-
-The retriever must expose a clean interface.
-
-Example
-
-```
-retrieve(query)
-
-↓
-
-{
-    chunks,
-    pages,
-    metadata
-}
-```
-
-No retrieval code should change when an LLM is introduced.
-
----
-
-# 15. Future Vision Integration
-
-```
-Question
-
-↓
-
-Image Retrieval
-
-↓
-
-Gemini Vision
-
-↓
-
-Diagram Explanation
-```
-
-Again,
-
-Vision models consume retrieved images.
-
-They never replace image retrieval.
-
----
-
-# 16. Folder Philosophy
-
-Every module owns one responsibility.
-
-Avoid giant utility files.
-
-Keep modules independent.
-
-Prefer composition over inheritance.
-
-Keep interfaces stable.
-
----
-
-# 17. Scalability Roadmap
-
-Current
-
-Single PDF
-
-↓
-
-Multiple PDFs
-
-↓
-
-Multiple Projects
-
-↓
-
-Organization Workspace
-
-↓
-
-Role-based Access
-
-↓
-
-Cloud Storage
-
-↓
-
-LLM Integration
-
-↓
-
-Multimodal RAG
-
----
-
-# 18. Non-Goals
-
-Version 1 does NOT implement
-
-❌ Chatbot
-
-❌ GPT
-
-❌ Gemini Flash
-
-❌ Gemini Vision
-
-❌ OCR
-
-❌ Agent Frameworks
-
-❌ LangChain Dependency
-
-❌ LlamaIndex Dependency
-
-❌ Multimodal RAG
-
----
-
-# 19. Definition of Success
-
-A successful Version 1 should:
-
-✔ Upload manuals
-
-✔ Process PDFs
-
-✔ Generate page images
-
-✔ Generate embeddings
-
-✔ Perform semantic retrieval
-
-✔ Return relevant pages
-
-✔ Display retrieved manual content
-
-without using any LLM.
+Future Sprints will build upon this foundation without changing the core retrieval pipeline:
+- Future Agent Workflows will consume `RetrievalFilter` output via clean APIs.
+- Future Vision Integration will attach page diagram images to `SourceReference` items.

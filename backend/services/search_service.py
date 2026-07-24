@@ -85,12 +85,16 @@ class SearchService:
             logger.info("Search executed against empty collection '%s'", settings.CHROMA_COLLECTION)
             return SearchResponse(query=clean_query, count=0, results=[])
 
-        # 5. Query ChromaDB for top-k matches
+        # 5. Query ChromaDB for top-k matches with optional document_id metadata filter
+        where_clause = {"document_id": request.document_id} if request.document_id else None
+
         raw_results = collection.query(
             query_embeddings=[query_vector],
             n_results=top_k,
+            where=where_clause,
             include=["documents", "metadatas", "distances"],
         )
+
 
         matched_results: List[SearchResult] = []
 
