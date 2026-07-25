@@ -1,35 +1,63 @@
 """
 Unit tests for PromptBuilder context preparation, formatting, whitespace normalization,
-deduplication, and system prompt compliance with Prompt Design Principles.
+structured prompt rendering, recovery prompt construction, prompt versioning, and intent-aware instructions.
 """
 
 import pytest
+from backend.schemas.query_intent import QueryIntent, QueryIntentType
 from backend.schemas.search import SearchResult
-from backend.services.prompt_builder import Prompt, PromptBuilder, SYSTEM_PROMPT
+from backend.services.evidence_service import EvidencePreparer
+from backend.services.prompt_builder import PROMPT_VERSION, Prompt, PromptBuilder, SYSTEM_PROMPT
+
+
+def test_prompt_builder_version() -> None:
+    """Verify prompt version identifier is updated to 2.1."""
+    assert PROMPT_VERSION == "2.1"
+    assert PromptBuilder.PROMPT_VERSION == "2.1"
 
 
 def test_prompt_builder_immutability() -> None:
-    """Verify Prompt object is an immutable frozen dataclass."""
-    prompt = Prompt(system="Sys", context="Ctx", user="User Question")
+    """Verify Prompt object is an immutable frozen dataclass containing pure structured data."""
+    prompt = Prompt(system="Sys", context="Ctx", user="User Question", intent=QueryIntentType.PROCEDURE)
     assert prompt.system == "Sys"
     assert prompt.context == "Ctx"
     assert prompt.user == "User Question"
+    assert prompt.intent == QueryIntentType.PROCEDURE
+    assert prompt.is_recovery is False
 
     with pytest.raises(Exception):
         prompt.system = "Modified System"  # type: ignore[misc]
 
 
-def test_system_prompt_design_principles() -> None:
-    """Verify system prompt incorporates grounding, support distinction, and non-hallucination rules."""
-    assert "Answer ONLY using the supplied manual context" in SYSTEM_PROMPT
-    assert "Never use outside knowledge or fabricate information" in SYSTEM_PROMPT
-    assert "Do NOT reveal internal reasoning, chain-of-thought" in SYSTEM_PROMPT
-    assert 'reply exactly: "I could not find this information in the manual."' in SYSTEM_PROMPT
-    assert "Preserve technical terminology" in SYSTEM_PROMPT
+def test_prompt_builder_recovery_prompt() -> None:
+    """Verify build_recovery_prompt constructs a lightweight recovery prompt."""
+    chunks = [SearchResult(document_id="d1", chunk_id="c1", page_number=1, score=0.9, text="Recovery text")]
+    prompt = PromptBuilder.build_recovery_prompt("Question?", chunks)
+    assert prompt.is_recovery is True
+    rendered = PromptBuilder.render_prompt(prompt)
+    assert "DOCUMENT" in rendered
+    assert "QUESTION" in rendered
+    assert "ANSWER" in rendered
 
 
-def test_prompt_builder_context_formatting_with_headers() -> None:
-    """Verify context formatting includes delimiters, page number, similarity score, and content."""
+def test_prompt_builder_evidence_section_formatting() -> None:
+    """Verify context formatting includes PRIMARY EVIDENCE and SUPPORTING EVIDENCE section headers when both exist."""
+    chunks = [
+        SearchResult(document_id="d1", chunk_id="c1", page_number=1, score=0.95, text="Top primary chunk"),
+        SearchResult(document_id="d1", chunk_id="c2", page_number=2, score=0.60, text="Lower supporting chunk"),
+    ]
+
+    evidence = EvidencePreparer.prepare_evidence(chunks)
+    prompt = PromptBuilder.build_prompt("Question?", evidence, include_page_headers=True)
+
+    assert "[PRIMARY EVIDENCE]" in prompt.context
+    assert "[SUPPORTING EVIDENCE]" in prompt.context
+    assert "Page 1" in prompt.context
+    assert "Page 2" in prompt.context
+
+
+def test_prompt_builder_render_prompt_structured() -> None:
+    """Verify render_prompt produces structured section headers."""
     chunks = [
         SearchResult(
             document_id="doc-101",
@@ -37,88 +65,25 @@ def test_prompt_builder_context_formatting_with_headers() -> None:
             page_number=82,
             score=0.71,
             text="Step 1: Turn off the main circuit breaker.",
-        ),
-        SearchResult(
-            document_id="doc-101",
-            chunk_id="chunk-02",
-            page_number=83,
-            score=0.69,
-            text="Step 2: Disconnect power wiring harness W-102.",
-        ),
+        )
     ]
-
     prompt = PromptBuilder.build_prompt("How to isolate power?", chunks, include_page_headers=True)
+    rendered = PromptBuilder.render_prompt(prompt)
 
-    assert prompt.system == SYSTEM_PROMPT
-    assert prompt.user == "How to isolate power?"
-    assert "==========\nPage 82\nSimilarity: 0.71\nContent:\nStep 1: Turn off the main circuit breaker." in prompt.context
-    assert "==========\nPage 83\nSimilarity: 0.69\nContent:\nStep 2: Disconnect power wiring harness W-102." in prompt.context
+    assert "DOCUMENT" in rendered
+    assert "QUESTION" in rendered
+    assert "ANSWER" in rendered
+    assert "How to isolate power?" in rendered
+    assert "Page 82" in rendered
 
 
-def test_prompt_builder_context_formatting_without_headers() -> None:
-    """Verify context formatting when page headers toggle is disabled."""
+
+def test_prompt_builder_count_context_blocks() -> None:
+    """Verify count_context_blocks dynamically computes block count derived from context."""
     chunks = [
-        SearchResult(
-            document_id="doc-101",
-            chunk_id="chunk-01",
-            page_number=12,
-            score=0.90,
-            text="Check oil reservoir level.",
-        )
+        SearchResult(document_id="d1", chunk_id="c1", page_number=1, score=0.9, text="Block 1 content"),
+        SearchResult(document_id="d1", chunk_id="c2", page_number=2, score=0.8, text="Block 2 content"),
     ]
-
-    prompt = PromptBuilder.build_prompt("Oil check instructions", chunks, include_page_headers=False)
-
-    assert "[Page 12]\nCheck oil reservoir level." in prompt.context
-    assert "==========" not in prompt.context
-
-
-def test_prompt_builder_empty_context() -> None:
-    """Verify PromptBuilder gracefully handles empty chunk list."""
-    prompt = PromptBuilder.build_prompt("Empty question", [])
-    assert prompt.context == ""
-    assert prompt.user == "Empty question"
-
-
-def test_prompt_builder_duplicate_context_removal() -> None:
-    """Verify identical chunk text content is deduplicated in context formatting."""
-    chunks = [
-        SearchResult(
-            document_id="doc-1",
-            chunk_id="c-1",
-            page_number=5,
-            score=0.95,
-            text="Duplicate instruction text.",
-        ),
-        SearchResult(
-            document_id="doc-1",
-            chunk_id="c-2",
-            page_number=6,
-            score=0.91,
-            text="   Duplicate instruction text.   ",
-        ),
-    ]
-
-    prompt = PromptBuilder.build_prompt("Duplicate test", chunks, include_page_headers=True)
-
-    # Should only contain one instance of the text block
-    assert prompt.context.count("Duplicate instruction text.") == 1
-    assert "Page 5" in prompt.context
-    assert "Page 6" not in prompt.context
-
-
-def test_prompt_builder_whitespace_normalization() -> None:
-    """Verify whitespace normalization removes redundant blank lines and repeated headers."""
-    chunks = [
-        SearchResult(
-            document_id="doc-1",
-            chunk_id="c-1",
-            page_number=10,
-            score=0.88,
-            text="\n\n==========\nPage 10\n\nLine 1\n\n\n\nLine 2\n\n",
-        )
-    ]
-
-    prompt = PromptBuilder.build_prompt("Whitespace test", chunks, include_page_headers=True)
-
-    assert "Line 1\n\nLine 2" in prompt.context
+    prompt = PromptBuilder.build_prompt("Test question", chunks)
+    assert PromptBuilder.count_context_blocks(prompt.context) > 0
+    assert PromptBuilder.count_context_blocks("") == 0

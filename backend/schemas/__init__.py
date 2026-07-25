@@ -8,6 +8,7 @@ from backend.schemas.chunking import Chunk, ChunkGenerationResponse
 from backend.schemas.embedding import EmbeddingResponse
 from backend.schemas.search import SearchRequest, SearchResult, SearchResponse
 from backend.schemas.ask import AskRequest, SourceReference, AskResponse
+from backend.schemas.evidence import SelectedEvidence
 from backend.schemas.query_intent import QueryIntent, QueryIntentType
 
 __all__ = [
@@ -23,6 +24,7 @@ __all__ = [
     "AskRequest",
     "SourceReference",
     "AskResponse",
+    "SelectedEvidence",
     "QueryIntent",
     "QueryIntentType",
 ]

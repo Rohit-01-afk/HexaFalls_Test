@@ -12,6 +12,9 @@ from backend.services.prompt_builder import PromptBuilder
 from backend.services.ollama_service import OllamaService
 from backend.services.rag_service import RAGService
 from backend.services.query_understanding_service import QueryUnderstandingService
+from backend.services.evidence_service import EvidenceBlock, PreparedEvidence, EvidencePreparer
+from backend.services.response_validator import ValidationReason, ValidationResult, ResponseValidator
+from backend.services.recovery_handler import RecoveryResult, RecoveryHandler
 
 __all__ = [
     "UploadService",
@@ -24,10 +27,12 @@ __all__ = [
     "OllamaService",
     "RAGService",
     "QueryUnderstandingService",
+    "EvidenceBlock",
+    "PreparedEvidence",
+    "EvidencePreparer",
+    "ValidationReason",
+    "ValidationResult",
+    "ResponseValidator",
+    "RecoveryResult",
+    "RecoveryHandler",
 ]
-
-
-
-
-
-

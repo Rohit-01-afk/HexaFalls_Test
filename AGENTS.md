@@ -403,3 +403,18 @@ Before writing or modifying any code, evaluate solutions strictly top-to-bottom 
 * **Never sacrifice safety:** Validation, type safety, error boundaries, and security measures (such as path traversal checks) must never be removed or simplified for brevity.
 * **Avoid Over-Abstraction:** Do not build abstract base classes, dynamic plugin loaders, or factory patterns unless more than two implementations actively exist.
 * **Inline Over Modularization:** Keep single-use code local to its calling scope instead of creating standalone helper files.
+
+---
+
+Evidence Selection Rules
+
+• Never send unnecessary context to the LLM.
+
+• Select only the minimum number of chunks
+required to answer the question.
+
+• Evidence selection must remain deterministic.
+
+• PromptBuilder receives only selected evidence.
+
+• The LLM is not responsible for searching.
