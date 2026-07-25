@@ -49,6 +49,11 @@ class RetrievalDiagnostics(BaseModel):
     intent_confidence: Optional[float] = Field(default=None, description="Deterministic confidence score for detected query intent (0.0 to 1.0)")
     matched_keywords: Optional[List[str]] = Field(default_factory=list, description="Keywords or phrase triggers matched during query intent analysis")
     intent_reason: Optional[str] = Field(default=None, description="Human-readable explanation of query intent classification decision")
+    selected_chunks: Optional[int] = Field(default=0, description="Count of chunks selected by ContextSelector")
+    candidate_chunks: Optional[int] = Field(default=0, description="Count of candidate chunks passed to ContextSelector")
+    selection_strategy: Optional[str] = Field(default="none", description="Selection strategy applied by ContextSelector")
+    highest_similarity: Optional[float] = Field(default=0.0, description="Highest similarity score among candidate chunks")
+
 
 
 class RetrievalMetrics(BaseModel):

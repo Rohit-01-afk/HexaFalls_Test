@@ -4,6 +4,8 @@ API endpoint for executing Retrieval-Augmented Generation (RAG) question answeri
 
 from fastapi import APIRouter, status
 
+from backend.core.config import settings
+from backend.core.logging import logger
 from backend.schemas.ask import AskRequest, AskResponse
 from backend.services.rag_service import RAGService
 
@@ -32,3 +34,5 @@ async def ask_question(request: AskRequest) -> AskResponse:
     Routes AskRequest payload to RAGService.
     """
     return await RAGService.ask(request)
+
+

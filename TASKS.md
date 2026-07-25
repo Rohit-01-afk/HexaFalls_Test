@@ -266,3 +266,17 @@ Keep backend modular.
 Frontend should remain lightweight until the backend is mature.
 
 Build one stable module at a time.
+
+
+---
+
+Sprint 7.2
+Intelligent Evidence Selection
+
+[x] Implement EvidenceSelector
+[x] Adaptive evidence selection
+[x] Dynamic chunk count
+[x] Evidence diagnostics
+[x] Reduced LLM context
+[x] Faster generation
+[x] Lower hallucination rate

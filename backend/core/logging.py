@@ -1,10 +1,10 @@
-"""
-Logging configuration for Blueprint Eye application.
-"""
-
 import logging
+import os
 import sys
 from backend.core.config import settings
+
+
+from pathlib import Path
 
 
 def setup_logging() -> logging.Logger:
@@ -25,3 +25,20 @@ def setup_logging() -> logging.Logger:
 
 
 logger = setup_logging()
+
+
+def write_debug_file(filename: str, content: str) -> None:
+    """Saves debug output into files inside debug_logs/ folder, overwriting on each request."""
+    try:
+        project_root = Path(__file__).resolve().parents[2]
+        debug_dir = project_root / "debug_logs"
+        debug_dir.mkdir(parents=True, exist_ok=True)
+        filepath = debug_dir / filename
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(content)
+    except Exception as err:
+        logger.error("Failed to write debug file %s: %s", filename, err, exc_info=True)
+
+
+
+

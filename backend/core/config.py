@@ -3,7 +3,7 @@ Core configuration settings for Blueprint Eye application.
 Loaded from environment variables or .env file.
 """
 
-from typing import List
+from typing import List, Optional
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -43,7 +43,14 @@ class Settings(BaseSettings):
     # Ollama & RAG Settings
     OLLAMA_HOST: str = "http://localhost:11434"
     OLLAMA_MODEL: str = "gemma4:e4b"
-    OLLAMA_TIMEOUT: float = 30.0
+    OLLAMA_TIMEOUT: float = 120.0
+    OLLAMA_TEMPERATURE: float = 0.0
+    OLLAMA_TOP_P: float = 0.9
+    OLLAMA_NUM_PREDICT: int = 512
+    OLLAMA_REPEAT_PENALTY: float = 1.1
+    OLLAMA_SEED: Optional[int] = 42
+    MAX_GENERATION_RETRIES: int = 1
+
     RAG_TOP_K: int = 5
     RAG_SIMILARITY_THRESHOLD: float = 0.45
 
@@ -54,6 +61,14 @@ class Settings(BaseSettings):
     RAG_SOFT_THRESHOLD_MARGIN: float = 0.05
     RAG_INCLUDE_PAGE_HEADERS: bool = True
     RAG_MAX_PREVIEW_CHARS: int = 250
+
+    # Debug & Observability Settings
+    DEBUG_RAG_PIPELINE: bool = False
+
+    # Evidence & Context Selection Settings (Sprint 7.2)
+    EVIDENCE_TOP1_THRESHOLD: float = 0.90
+    EVIDENCE_TOP2_THRESHOLD: float = 0.82
+    EVIDENCE_TOP3_THRESHOLD: float = 0.75
 
 
 
