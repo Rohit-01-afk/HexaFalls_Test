@@ -1,0 +1,74 @@
+===== OLLAMA REQUEST =====
+
+Generation ID: gen-ed97e90efa37
+Endpoint: http://localhost:11434/api/generate
+Model: gemma4:e4b
+Generation options: {'temperature': 0.0, 'top_p': 0.9, 'num_predict': 512, 'repeat_penalty': 1.1, 'seed': 42}
+System prompt length: 382
+Rendered prompt length: 1787
+
+Rendered prompt:
+====================
+
+DOCUMENT
+
+[PRIMARY EVIDENCE]
+
+==========
+Page 22
+Similarity: 0.51
+Content:
+R23 B.TECH. CSE(AIML) 
+ 
+ 
+ 
+Paper Name: Constitution of India  
+Paper Code: HU103 
+Credit: 01  
+No. of lectures: 12 
+Prerequisite: Nil 
+ 
+Course Outcome:  On Completion of this course student will be able to 
+CO1:  To Identify and explore the basic features and modalities of Indian constitution.  
+CO2:  To Differentiate and relate the functioning of Indian parliamentary system at the centre 
+and state level.  
+CO3: To Differentiate the various aspects of Indian Legal System and its related bodi
+
+==========
+Page 38
+Similarity: 0.46
+Content:
+engineers to learn underlying principles of various tools 
+and techniques they use in core engineering and related industrial applications. The course would also inculcate 
+innovative mindsets of the students and can create awareness of the vital role played by science and engineering in 
+the development of new technologies. 
+ 
+Course Outcomes (COs): 
+After attending the course students’ should be able to 
+ 
+CO 
+Description 
+CO1
+explain basic principles of laser, optical fiber and holography.
+CO
+
+[SUPPORTING EVIDENCE]
+
+==========
+Page 45
+Similarity: 0.46
+Content:
+ormulate sustainable developmental solutions  
+CO 3: To develop the ability to understanding the issues related to ‘Indian’ culture, tradition and its composite 
+character to apply the same in the socio-technological developments in present scenario 
+ C0 4: The students are able to relate & assess Indian Knowledge System in the health care, architecture, 
+agriculture  & other systems . 
+ 
+Module-1                                                 3L 
+An overview of Indian Knowledge System (IKS): I
+
+QUESTION
+
+whata are the course outcomes of Indian Constituition
+
+ANSWER
