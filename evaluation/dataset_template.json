@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "category": "definition",
+    "question": "Sample question text describing a concept or specification",
+    "expected_page": 1,
+    "expected_keywords": ["keyword1", "keyword2"],
+    "notes": "Template entry for definition queries."
+  },
+  {
+    "id": 2,
+    "category": "procedure",
+    "question": "Sample question text asking for step-by-step instructions",
+    "expected_page": 2,
+    "expected_keywords": ["step", "action"],
+    "notes": "Template entry for procedural queries."
+  },
+  {
+    "id": 3,
+    "category": "list",
+    "question": "Sample question text asking for enumerated items or modes",
+    "expected_page": 3,
+    "expected_keywords": ["item1", "item2"],
+    "notes": "Template entry for list queries."
+  },
+  {
+    "id": 4,
+    "category": "comparison",
+    "question": "Sample question contrasting two features or states",
+    "expected_page": 4,
+    "expected_keywords": ["featureA", "featureB"],
+    "notes": "Template entry for comparison queries."
+  },
+  {
+    "id": 5,
+    "category": "summary",
+    "question": "Sample question asking for high-level overview or precaution summary",
+    "expected_page": 5,
+    "expected_keywords": ["overview", "summary"],
+    "notes": "Template entry for summary queries."
+  },
+  {
+    "id": 6,
+    "category": "negative",
+    "question": "Sample question asking about topics absent from the manual",
+    "expected_page": null,
+    "expected_keywords": ["could not find"],
+    "notes": "Template entry for negative queries (expects fallback response)."
+  },
+  {
+    "id": 7,
+    "category": "multi-step",
+    "question": "Sample question asking for complex sequential workflow",
+    "expected_page": 6,
+    "expected_keywords": ["first", "then", "finally"],
+    "notes": "Template entry for multi-step queries."
+  }
+]

@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1,
+    "category": "definition",
+    "question": "What is the stage filtration purpose of the HEPA filter in the air purifier?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 2,
+    "category": "definition",
+    "question": "What is the function of the negative ion generator in the air purifier?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 3,
+    "category": "procedure",
+    "question": "How do you activate and deactivate the child lock function?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 4,
+    "category": "procedure",
+    "question": "How do you reset the filter indicator after replacing the filter element?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 5,
+    "category": "procedure",
+    "question": "What app should be downloaded for Wi-Fi smart control setup?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 6,
+    "category": "list",
+    "question": "What are the three fan speed settings available on the air purifier?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 7,
+    "category": "list",
+    "question": "What timer settings can be selected using the Timer Button?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 8,
+    "category": "list",
+    "question": "What items must be removed from the air purifier during pre-operation setup?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 9,
+    "category": "comparison",
+    "question": "What indicator light color shows that child lock is activated versus deactivated?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 10,
+    "category": "summary",
+    "question": "What basic safety precautions should be followed when handling the power cord and outlet?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 11,
+    "category": "summary",
+    "question": "How frequently is it recommended to replace the filter element?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 12,
+    "category": "negative",
+    "question": "What is the recommended torque specification for the hydraulic pump bolts?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 13,
+    "category": "negative",
+    "question": "How do you calibrate the refrigerant expansion valve on the unit?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 14,
+    "category": "multi-step",
+    "question": "What pre-operation steps are required to position the air purifier properly before plugging it in?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 15,
+    "category": "multi-step",
+    "question": "What are the step-by-step instructions for replacing the filter element?",
+    "answer": "[Connection Exception: [WinError 10061] No connection could be made because the target machine actively refused it]",
+    "sources": [],
+    "latency_ms": 0.0,
+    "diagnostics": {},
+    "pass": false,
+    "failure_reason": "No answer returned",
+    "stage_scores": {
+      "retrieval": false,
+      "selection": false,
+      "generation": false
+    }
+  }
+]

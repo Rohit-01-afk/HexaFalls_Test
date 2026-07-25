@@ -1,0 +1,977 @@
+[
+  {
+    "id": 1,
+    "category": "definition",
+    "question": "What is the stage filtration purpose of the HEPA filter in the air purifier?",
+    "expected_page": 6,
+    "returned_pages": [
+      6,
+      6,
+      6
+    ],
+    "expected_keywords": [
+      "hepa",
+      "pollutants",
+      "0.3um"
+    ],
+    "answer": "HEPA \ufb01lter traps to <0xEF><0x8D><0x9F><0xEF><0x8D><0x9F>.<0xEF><0x8D><0x9F><0xEF><0x8D><0x9D>% of pollutants as small as <0xEF><0x8D><0x96>.<0xEF><0x8D><0x99>um or larger pollen and dust mites, and \ufb01lters air pollution of PM <0xEF><0x8D><0x98>.<0xEF><0x8D><0x9B>.",
+    "sources": [
+      {
+        "page": 6,
+        "chunk_id": "4c7b322d-31a1-47b9-a0d1-43504501edfe",
+        "score": 0.7219,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "P\uf35b\nThe air puri\ufb01er is designed to capture \uf35f\uf35f.\uf35f\uf35d% of dust, pollen, pet dander, smoke, \nmold spores, and household odors, allowing you to breathe more healthily.\nStage Filtration:Pre-\ufb01lter captures larger airborne particles such as \nhuman hair,pet dand..."
+      },
+      {
+        "page": 6,
+        "chunk_id": "0e369111-5be5-4295-ad3e-5504f373366e",
+        "score": 0.7219,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "P\uf35b\nThe air puri\ufb01er is designed to capture \uf35f\uf35f.\uf35f\uf35d% of dust, pollen, pet dander, smoke, \nmold spores, and household odors, allowing you to breathe more healthily.\nStage Filtration:Pre-\ufb01lter captures larger airborne particles such as \nhuman hair,pet dand..."
+      },
+      {
+        "page": 6,
+        "chunk_id": "8afe168c-29fb-485b-87a7-ba2f117f1fb2",
+        "score": 0.7219,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "P\uf35b\nThe air puri\ufb01er is designed to capture \uf35f\uf35f.\uf35f\uf35d% of dust, pollen, pet dander, smoke, \nmold spores, and household odors, allowing you to breathe more healthily.\nStage Filtration:Pre-\ufb01lter captures larger airborne particles such as \nhuman hair,pet dand..."
+      }
+    ],
+    "latency_ms": 38893.1,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 20,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "definition",
+      "intent_confidence": 0.85,
+      "matched_keywords": [
+        "what is"
+      ],
+      "intent_reason": "Detected intent 'definition' via matched triggers: 'what is' (confidence: 0.85)",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.7219
+    },
+    "pass": true,
+    "failure_reason": null,
+    "stage_scores": {
+      "retrieval": true,
+      "selection": true,
+      "generation": true
+    }
+  },
+  {
+    "id": 2,
+    "category": "definition",
+    "question": "What is the function of the negative ion generator in the air purifier?",
+    "expected_page": 10,
+    "returned_pages": [
+      10,
+      10,
+      10
+    ],
+    "expected_keywords": [
+      "negative ion",
+      "dust",
+      "fall"
+    ],
+    "answer": "The high-energy negative ion generator continuously produces negative ions that effectively gather indoor floating dust, smoke, and bacteria together, causing them to quickly fall and purify the air.",
+    "sources": [
+      {
+        "page": 10,
+        "chunk_id": "936eb8b5-1817-4570-afb6-90595df79f0d",
+        "score": 0.7611,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "P\uf35f\nNegative ion purifying function\nSmart Control \nThe air puri\ufb01er is equipped with a high-energy negative ion generator that \ncontinuously produces negative ions. These ions e\ufb00ectively gather indoor \n\ufb02oating dust, smoke, and bacteria together, causin..."
+      },
+      {
+        "page": 10,
+        "chunk_id": "339f09d8-53df-4944-9831-9b74058b4e27",
+        "score": 0.7611,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "P\uf35f\nNegative ion purifying function\nSmart Control \nThe air puri\ufb01er is equipped with a high-energy negative ion generator that \ncontinuously produces negative ions. These ions e\ufb00ectively gather indoor \n\ufb02oating dust, smoke, and bacteria together, causin..."
+      },
+      {
+        "page": 10,
+        "chunk_id": "d9186da6-02cc-47ac-bb69-8c9d6e05e02a",
+        "score": 0.7611,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "P\uf35f\nNegative ion purifying function\nSmart Control \nThe air puri\ufb01er is equipped with a high-energy negative ion generator that \ncontinuously produces negative ions. These ions e\ufb00ectively gather indoor \n\ufb02oating dust, smoke, and bacteria together, causin..."
+      }
+    ],
+    "latency_ms": 9511.89,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 12,
+      "returned_count": 5,
+      "confidence": "Medium",
+      "filter_reason": null,
+      "similarity_threshold": 0.45,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "definition",
+      "intent_confidence": 0.85,
+      "matched_keywords": [
+        "what is"
+      ],
+      "intent_reason": "Detected intent 'definition' via matched triggers: 'what is' (confidence: 0.85)",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.7611
+    },
+    "pass": true,
+    "failure_reason": null,
+    "stage_scores": {
+      "retrieval": true,
+      "selection": true,
+      "generation": true
+    }
+  },
+  {
+    "id": 3,
+    "category": "procedure",
+    "question": "How do you activate and deactivate the child lock function?",
+    "expected_page": 9,
+    "returned_pages": [
+      9,
+      9,
+      9
+    ],
+    "expected_keywords": [
+      "press",
+      "3 seconds",
+      "child lock"
+    ],
+    "answer": "To activate the child lock function, press and hold the button for <0xEF><0x8D><0x99> seconds. To deactivate it, press and hold the button for <0xEF><0x8D><0x99> seconds.",
+    "sources": [
+      {
+        "page": 9,
+        "chunk_id": "1c25c110-ade7-4c2e-ae8d-e614f97e70be",
+        "score": 0.551,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "and timer setting if any.\n2)  All button control will be followed by beep sounds.\n3\nFan Speed Button\n)  All LED indicators are lingting up.\nChild Lock Function\nPress and hold the button for \uf359 seconds to activate the child lock function. \nWhen the chi..."
+      },
+      {
+        "page": 9,
+        "chunk_id": "dd0564f8-7ad6-4b62-a4f0-7dde69178bbc",
+        "score": 0.551,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "and timer setting if any.\n2)  All button control will be followed by beep sounds.\n3\nFan Speed Button\n)  All LED indicators are lingting up.\nChild Lock Function\nPress and hold the button for \uf359 seconds to activate the child lock function. \nWhen the chi..."
+      },
+      {
+        "page": 9,
+        "chunk_id": "c9f3d920-2f41-4ce1-8a30-ad75bd5987cb",
+        "score": 0.551,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "and timer setting if any.\n2)  All button control will be followed by beep sounds.\n3\nFan Speed Button\n)  All LED indicators are lingting up.\nChild Lock Function\nPress and hold the button for \uf359 seconds to activate the child lock function. \nWhen the chi..."
+      }
+    ],
+    "latency_ms": 9140.53,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 9,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "general",
+      "intent_confidence": 0.0,
+      "matched_keywords": [],
+      "intent_reason": "No domain intent keywords matched; fell back to general category.",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.551
+    },
+    "pass": true,
+    "failure_reason": null,
+    "stage_scores": {
+      "retrieval": true,
+      "selection": true,
+      "generation": true
+    }
+  },
+  {
+    "id": 4,
+    "category": "procedure",
+    "question": "How do you reset the filter indicator after replacing the filter element?",
+    "expected_page": 12,
+    "returned_pages": [
+      13,
+      13,
+      13
+    ],
+    "expected_keywords": [
+      "reset",
+      "filter",
+      "beeps"
+    ],
+    "answer": "I could not find this information in the manual.",
+    "sources": [
+      {
+        "page": 13,
+        "chunk_id": "90844632-4edd-460e-9c53-9d9875ebda44",
+        "score": 0.5959,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "P\uf357\uf358\nAir Quality Indicator\nReplacing The Filter\nIn the startup phase, the air puri\ufb01er is equipped with a \ufb01lter life detection \nsystem that triggers a rindicator light \ufb02ashes red,when the \ufb01lter element \nhas reached its end of life and requires replacem..."
+      },
+      {
+        "page": 13,
+        "chunk_id": "94ce7938-4cf0-4734-bfe8-6672ae9525b1",
+        "score": 0.5959,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "P\uf357\uf358\nAir Quality Indicator\nReplacing The Filter\nIn the startup phase, the air puri\ufb01er is equipped with a \ufb01lter life detection \nsystem that triggers a rindicator light \ufb02ashes red,when the \ufb01lter element \nhas reached its end of life and requires replacem..."
+      },
+      {
+        "page": 13,
+        "chunk_id": "4eedd7d3-85bc-4083-bb12-90b537dbc188",
+        "score": 0.5959,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "P\uf357\uf358\nAir Quality Indicator\nReplacing The Filter\nIn the startup phase, the air puri\ufb01er is equipped with a \ufb01lter life detection \nsystem that triggers a rindicator light \ufb02ashes red,when the \ufb01lter element \nhas reached its end of life and requires replacem..."
+      }
+    ],
+    "latency_ms": 10305.33,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 20,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "general",
+      "intent_confidence": 0.0,
+      "matched_keywords": [],
+      "intent_reason": "No domain intent keywords matched; fell back to general category.",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.5959
+    },
+    "pass": false,
+    "failure_reason": "Generation failure",
+    "stage_scores": {
+      "retrieval": true,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 5,
+    "category": "procedure",
+    "question": "What app should be downloaded for Wi-Fi smart control setup?",
+    "expected_page": 10,
+    "returned_pages": [
+      11,
+      11,
+      11
+    ],
+    "expected_keywords": [
+      "pjrobot",
+      "app"
+    ],
+    "answer": "I could not find this information in the manual.",
+    "sources": [
+      {
+        "page": 11,
+        "chunk_id": "108d9786-d57a-43a8-9790-23080cacf210",
+        "score": 0.486,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "P\uf357\uf356\nAttention:\n\uf35a.During set Wi-Fi network press and hold Wi-Fi icon \uf359 seconds on the \nWi-Fi status \u201cBlink quickly\u201d for connecting.\n\uf35b.Follow the instructions in the App to set up the Wi-Fi connection.\nPlease choose \u201cBlink quickly\u201d.\nAfter connecting su..."
+      },
+      {
+        "page": 11,
+        "chunk_id": "93668475-54de-4a17-bccf-8ad89d54c1f7",
+        "score": 0.486,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "P\uf357\uf356\nAttention:\n\uf35a.During set Wi-Fi network press and hold Wi-Fi icon \uf359 seconds on the \nWi-Fi status \u201cBlink quickly\u201d for connecting.\n\uf35b.Follow the instructions in the App to set up the Wi-Fi connection.\nPlease choose \u201cBlink quickly\u201d.\nAfter connecting su..."
+      },
+      {
+        "page": 11,
+        "chunk_id": "6fd1437b-d361-497b-a705-83c2ca9a84b3",
+        "score": 0.486,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "P\uf357\uf356\nAttention:\n\uf35a.During set Wi-Fi network press and hold Wi-Fi icon \uf359 seconds on the \nWi-Fi status \u201cBlink quickly\u201d for connecting.\n\uf35b.Follow the instructions in the App to set up the Wi-Fi connection.\nPlease choose \u201cBlink quickly\u201d.\nAfter connecting su..."
+      }
+    ],
+    "latency_ms": 8799.24,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 9,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "procedure",
+      "intent_confidence": 0.7,
+      "matched_keywords": [
+        "setup"
+      ],
+      "intent_reason": "Detected intent 'procedure' via matched triggers: 'setup' (confidence: 0.70)",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.486
+    },
+    "pass": false,
+    "failure_reason": "Generation failure",
+    "stage_scores": {
+      "retrieval": true,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 6,
+    "category": "list",
+    "question": "What are the three fan speed settings available on the air purifier?",
+    "expected_page": 9,
+    "returned_pages": [
+      9,
+      9,
+      9
+    ],
+    "expected_keywords": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "answer": "The three fan speed settings available on the air purifier are Low, Medium, and High.",
+    "sources": [
+      {
+        "page": 9,
+        "chunk_id": "28998531-87c1-43a9-9d28-cd516db494bc",
+        "score": 0.6579,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "e.\nP\uf35e\nWhen the air puri\ufb01er is on ,press to adjust \uf359level of the fan speed and \ncycle through \uf357-low,\uf358-Medium,and \uf359-High settings.The corresponding \nspeed level indicator will light up when a speed level is selected.\n"
+      },
+      {
+        "page": 9,
+        "chunk_id": "0e2367aa-549b-4b24-8ab7-52f57fcb16e8",
+        "score": 0.6579,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "e.\nP\uf35e\nWhen the air puri\ufb01er is on ,press to adjust \uf359level of the fan speed and \ncycle through \uf357-low,\uf358-Medium,and \uf359-High settings.The corresponding \nspeed level indicator will light up when a speed level is selected.\n"
+      },
+      {
+        "page": 9,
+        "chunk_id": "13a18c01-85dc-4d75-b73b-86c68e4f91e9",
+        "score": 0.6579,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "e.\nP\uf35e\nWhen the air puri\ufb01er is on ,press to adjust \uf359level of the fan speed and \ncycle through \uf357-low,\uf358-Medium,and \uf359-High settings.The corresponding \nspeed level indicator will light up when a speed level is selected.\n"
+      }
+    ],
+    "latency_ms": 9505.14,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 20,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "definition",
+      "intent_confidence": 0.85,
+      "matched_keywords": [
+        "what are"
+      ],
+      "intent_reason": "Detected intent 'definition' via matched triggers: 'what are' (confidence: 0.85)",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.6579
+    },
+    "pass": true,
+    "failure_reason": null,
+    "stage_scores": {
+      "retrieval": true,
+      "selection": true,
+      "generation": true
+    }
+  },
+  {
+    "id": 7,
+    "category": "list",
+    "question": "What timer settings can be selected using the Timer Button?",
+    "expected_page": 12,
+    "returned_pages": [
+      9,
+      9,
+      9
+    ],
+    "expected_keywords": [
+      "2h",
+      "4h",
+      "8h"
+    ],
+    "answer": "I could not find this information in the manual.",
+    "sources": [
+      {
+        "page": 9,
+        "chunk_id": "1c25c110-ade7-4c2e-ae8d-e614f97e70be",
+        "score": 0.4829,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "and timer setting if any.\n2)  All button control will be followed by beep sounds.\n3\nFan Speed Button\n)  All LED indicators are lingting up.\nChild Lock Function\nPress and hold the button for \uf359 seconds to activate the child lock function. \nWhen the chi..."
+      },
+      {
+        "page": 9,
+        "chunk_id": "dd0564f8-7ad6-4b62-a4f0-7dde69178bbc",
+        "score": 0.4829,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "and timer setting if any.\n2)  All button control will be followed by beep sounds.\n3\nFan Speed Button\n)  All LED indicators are lingting up.\nChild Lock Function\nPress and hold the button for \uf359 seconds to activate the child lock function. \nWhen the chi..."
+      },
+      {
+        "page": 9,
+        "chunk_id": "c9f3d920-2f41-4ce1-8a30-ad75bd5987cb",
+        "score": 0.4829,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "and timer setting if any.\n2)  All button control will be followed by beep sounds.\n3\nFan Speed Button\n)  All LED indicators are lingting up.\nChild Lock Function\nPress and hold the button for \uf359 seconds to activate the child lock function. \nWhen the chi..."
+      }
+    ],
+    "latency_ms": 11011.2,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 6,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "general",
+      "intent_confidence": 0.0,
+      "matched_keywords": [],
+      "intent_reason": "No domain intent keywords matched; fell back to general category.",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.4829
+    },
+    "pass": false,
+    "failure_reason": "Generation failure",
+    "stage_scores": {
+      "retrieval": true,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 8,
+    "category": "list",
+    "question": "What items must be removed from the air purifier during pre-operation setup?",
+    "expected_page": 8,
+    "returned_pages": [
+      15,
+      15,
+      15
+    ],
+    "expected_keywords": [
+      "filter",
+      "adaptor",
+      "plastic"
+    ],
+    "answer": "I could not find this information in the manual.",
+    "sources": [
+      {
+        "page": 15,
+        "chunk_id": "468ac9e3-0ddc-48f5-832a-a82d697c976d",
+        "score": 0.6579,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "P\uf357\uf35a\nWHAT\u2019S IN THE BOX\nCLEANING AND CARE\n\uf357 \u00d7PJ HEPA Air Puri\ufb01er\n\uf357\u00d7HEPA Filter (Pre-installed)\n\uf357\u00d7Power Adapter\n\uf357\u00d7User Manual\nClean the air puri\ufb01er at least once month with a clean,dry,soft \ncloth or a vacuum.\nMore frequent cleaning may be required depe..."
+      },
+      {
+        "page": 15,
+        "chunk_id": "8b596731-042d-42fa-b875-22009025e2bd",
+        "score": 0.6579,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "P\uf357\uf35a\nWHAT\u2019S IN THE BOX\nCLEANING AND CARE\n\uf357 \u00d7PJ HEPA Air Puri\ufb01er\n\uf357\u00d7HEPA Filter (Pre-installed)\n\uf357\u00d7Power Adapter\n\uf357\u00d7User Manual\nClean the air puri\ufb01er at least once month with a clean,dry,soft \ncloth or a vacuum.\nMore frequent cleaning may be required depe..."
+      },
+      {
+        "page": 15,
+        "chunk_id": "bd98705b-9294-46b6-b3f7-773b9cd4b5c1",
+        "score": 0.6579,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "P\uf357\uf35a\nWHAT\u2019S IN THE BOX\nCLEANING AND CARE\n\uf357 \u00d7PJ HEPA Air Puri\ufb01er\n\uf357\u00d7HEPA Filter (Pre-installed)\n\uf357\u00d7Power Adapter\n\uf357\u00d7User Manual\nClean the air puri\ufb01er at least once month with a clean,dry,soft \ncloth or a vacuum.\nMore frequent cleaning may be required depe..."
+      }
+    ],
+    "latency_ms": 10958.44,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 20,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "procedure",
+      "intent_confidence": 0.75,
+      "matched_keywords": [
+        "setup",
+        "remove"
+      ],
+      "intent_reason": "Detected intent 'procedure' via matched triggers: 'setup', 'remove' (confidence: 0.75)",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.6579
+    },
+    "pass": false,
+    "failure_reason": "Generation failure",
+    "stage_scores": {
+      "retrieval": true,
+      "selection": false,
+      "generation": false
+    }
+  },
+  {
+    "id": 9,
+    "category": "comparison",
+    "question": "What indicator light color shows that child lock is activated versus deactivated?",
+    "expected_page": 9,
+    "returned_pages": [
+      9,
+      9,
+      9
+    ],
+    "expected_keywords": [
+      "red",
+      "white"
+    ],
+    "answer": "When the child lock is activated, the indicator light turns red. To deactivate it, the indicator light turns white.",
+    "sources": [
+      {
+        "page": 9,
+        "chunk_id": "1c25c110-ade7-4c2e-ae8d-e614f97e70be",
+        "score": 0.5585,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "and timer setting if any.\n2)  All button control will be followed by beep sounds.\n3\nFan Speed Button\n)  All LED indicators are lingting up.\nChild Lock Function\nPress and hold the button for \uf359 seconds to activate the child lock function. \nWhen the chi..."
+      },
+      {
+        "page": 9,
+        "chunk_id": "dd0564f8-7ad6-4b62-a4f0-7dde69178bbc",
+        "score": 0.5585,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "and timer setting if any.\n2)  All button control will be followed by beep sounds.\n3\nFan Speed Button\n)  All LED indicators are lingting up.\nChild Lock Function\nPress and hold the button for \uf359 seconds to activate the child lock function. \nWhen the chi..."
+      },
+      {
+        "page": 9,
+        "chunk_id": "c9f3d920-2f41-4ce1-8a30-ad75bd5987cb",
+        "score": 0.5585,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "and timer setting if any.\n2)  All button control will be followed by beep sounds.\n3\nFan Speed Button\n)  All LED indicators are lingting up.\nChild Lock Function\nPress and hold the button for \uf359 seconds to activate the child lock function. \nWhen the chi..."
+      }
+    ],
+    "latency_ms": 10122.52,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 9,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "comparison",
+      "intent_confidence": 0.85,
+      "matched_keywords": [
+        "versus"
+      ],
+      "intent_reason": "Detected intent 'comparison' via matched triggers: 'versus' (confidence: 0.85)",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.5585
+    },
+    "pass": true,
+    "failure_reason": null,
+    "stage_scores": {
+      "retrieval": true,
+      "selection": true,
+      "generation": true
+    }
+  },
+  {
+    "id": 10,
+    "category": "summary",
+    "question": "What basic safety precautions should be followed when handling the power cord and outlet?",
+    "expected_page": 4,
+    "returned_pages": [
+      4,
+      4,
+      4
+    ],
+    "expected_keywords": [
+      "unplug",
+      "ac",
+      "water",
+      "cord"
+    ],
+    "answer": "Keep the cord out of heavy tra\ufb03c areas. To avoid fire hazard, NEVER put the cord under rugs, near heat registers, radiator, stoves, or heaters. Also, to protect against electrical hazards, DO NOT immerse it in water or other liquids, and do not use it near water or in a damp or wet location. Additionally, always unplug the air purifier before moving it or opening the grille.",
+    "sources": [
+      {
+        "page": 4,
+        "chunk_id": "3dc58b5a-7cc8-460c-a3a6-3d41152595c5",
+        "score": 0.6519,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "Keep the cord out of heavy tra\ufb03c areas.To avoid \ufb01re hazard,NEVER \nput the cord under rugs ,near heat registers,radiator,stoves,or heaters.\nTo protect against electrical hazards ,DO NOT immerse in water or \nother liquids. Do not use near water or in a..."
+      },
+      {
+        "page": 4,
+        "chunk_id": "4eaae2af-7179-450a-9be5-6b593d5cf286",
+        "score": 0.6519,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "Keep the cord out of heavy tra\ufb03c areas.To avoid \ufb01re hazard,NEVER \nput the cord under rugs ,near heat registers,radiator,stoves,or heaters.\nTo protect against electrical hazards ,DO NOT immerse in water or \nother liquids. Do not use near water or in a..."
+      },
+      {
+        "page": 4,
+        "chunk_id": "2e165c3d-5c9f-470b-b2f3-8680b77f05e5",
+        "score": 0.6519,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "Keep the cord out of heavy tra\ufb03c areas.To avoid \ufb01re hazard,NEVER \nput the cord under rugs ,near heat registers,radiator,stoves,or heaters.\nTo protect against electrical hazards ,DO NOT immerse in water or \nother liquids. Do not use near water or in a..."
+      }
+    ],
+    "latency_ms": 12274.82,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 18,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "safety",
+      "intent_confidence": 0.95,
+      "matched_keywords": [
+        "safety precautions",
+        "safety",
+        "precaution"
+      ],
+      "intent_reason": "Detected intent 'safety' via matched triggers: 'safety precautions', 'safety', 'precaution' (confidence: 0.95)",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.6519
+    },
+    "pass": true,
+    "failure_reason": null,
+    "stage_scores": {
+      "retrieval": true,
+      "selection": true,
+      "generation": true
+    }
+  },
+  {
+    "id": 11,
+    "category": "summary",
+    "question": "How frequently is it recommended to replace the filter element?",
+    "expected_page": 13,
+    "returned_pages": [
+      13,
+      13,
+      13
+    ],
+    "expected_keywords": [
+      "three months",
+      "filter"
+    ],
+    "answer": "It is recommended to replace the \ufb01lter element every three months for optimal health bene\ufb01ts.",
+    "sources": [
+      {
+        "page": 13,
+        "chunk_id": "96123a3d-8b1d-463d-9e81-bbddacb75733",
+        "score": 0.5752,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "\nthe air inlet grille counterclockwise and remove it, then replace with a \nnew \ufb01lter. Follow the direction arrow on the lower cover and rotate \nclockwise to secure in place.\nWarm Tips: It is recommended to replace the \ufb01lter element every \nthree month..."
+      },
+      {
+        "page": 13,
+        "chunk_id": "d9d2fdb0-d944-4de0-9ad2-42b3697aa9e7",
+        "score": 0.5752,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "\nthe air inlet grille counterclockwise and remove it, then replace with a \nnew \ufb01lter. Follow the direction arrow on the lower cover and rotate \nclockwise to secure in place.\nWarm Tips: It is recommended to replace the \ufb01lter element every \nthree month..."
+      },
+      {
+        "page": 13,
+        "chunk_id": "a640e565-1ad9-4fb0-b30d-1acf62473244",
+        "score": 0.5752,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "\nthe air inlet grille counterclockwise and remove it, then replace with a \nnew \ufb01lter. Follow the direction arrow on the lower cover and rotate \nclockwise to secure in place.\nWarm Tips: It is recommended to replace the \ufb01lter element every \nthree month..."
+      }
+    ],
+    "latency_ms": 10329.72,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 15,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "procedure",
+      "intent_confidence": 0.7,
+      "matched_keywords": [
+        "replace"
+      ],
+      "intent_reason": "Detected intent 'procedure' via matched triggers: 'replace' (confidence: 0.70)",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.5752
+    },
+    "pass": true,
+    "failure_reason": null,
+    "stage_scores": {
+      "retrieval": true,
+      "selection": true,
+      "generation": true
+    }
+  },
+  {
+    "id": 12,
+    "category": "negative",
+    "question": "What is the recommended torque specification for the hydraulic pump bolts?",
+    "expected_page": null,
+    "returned_pages": [],
+    "expected_keywords": [
+      "could not find"
+    ],
+    "answer": "I could not find sufficiently relevant information in the manual.",
+    "sources": [],
+    "latency_ms": 123.09,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 0,
+      "returned_count": 0,
+      "confidence": "None",
+      "filter_reason": "filtered_below_threshold",
+      "similarity_threshold": 0.45,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "definition",
+      "intent_confidence": 0.85,
+      "matched_keywords": [
+        "what is"
+      ],
+      "intent_reason": "Detected intent 'definition' via matched triggers: 'what is' (confidence: 0.85)",
+      "selected_chunks": 0,
+      "candidate_chunks": 0,
+      "selection_strategy": "empty_candidates",
+      "highest_similarity": 0.0
+    },
+    "pass": true,
+    "failure_reason": null,
+    "stage_scores": {
+      "retrieval": true,
+      "selection": true,
+      "generation": true
+    }
+  },
+  {
+    "id": 13,
+    "category": "negative",
+    "question": "How do you calibrate the refrigerant expansion valve on the unit?",
+    "expected_page": null,
+    "returned_pages": [],
+    "expected_keywords": [
+      "could not find"
+    ],
+    "answer": "I could not find sufficiently relevant information in the manual.",
+    "sources": [],
+    "latency_ms": 96.64,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 0,
+      "returned_count": 0,
+      "confidence": "None",
+      "filter_reason": "filtered_below_threshold",
+      "similarity_threshold": 0.45,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "general",
+      "intent_confidence": 0.0,
+      "matched_keywords": [],
+      "intent_reason": "No domain intent keywords matched; fell back to general category.",
+      "selected_chunks": 0,
+      "candidate_chunks": 0,
+      "selection_strategy": "empty_candidates",
+      "highest_similarity": 0.0
+    },
+    "pass": true,
+    "failure_reason": null,
+    "stage_scores": {
+      "retrieval": true,
+      "selection": true,
+      "generation": true
+    }
+  },
+  {
+    "id": 14,
+    "category": "multi-step",
+    "question": "What pre-operation steps are required to position the air purifier properly before plugging it in?",
+    "expected_page": 8,
+    "returned_pages": [
+      8,
+      8,
+      8
+    ],
+    "expected_keywords": [
+      "packaging",
+      "level",
+      "1ft"
+    ],
+    "answer": "Place it on a firm, level and flat area. For proper airflow, locate the unit at",
+    "sources": [
+      {
+        "page": 8,
+        "chunk_id": "5f027e5b-8c1d-4e3f-acc1-7deaf9109cf3",
+        "score": 0.6251,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "P\uf35d\n\uf357.Carefully remove your air puri\ufb01er from the packaging box and plastic bag.\n\uf358.Remove the \ufb01lter and the adaptor from the air puri\ufb01er,remove the \nprotective plastic,and then insert the \ufb01lter into the unit.\n\uf359.Place it on a \ufb01rm,level and \ufb02at area.\n   ..."
+      },
+      {
+        "page": 8,
+        "chunk_id": "7c42e128-e3b4-482d-8e93-31968e7018e6",
+        "score": 0.6251,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "P\uf35d\n\uf357.Carefully remove your air puri\ufb01er from the packaging box and plastic bag.\n\uf358.Remove the \ufb01lter and the adaptor from the air puri\ufb01er,remove the \nprotective plastic,and then insert the \ufb01lter into the unit.\n\uf359.Place it on a \ufb01rm,level and \ufb02at area.\n   ..."
+      },
+      {
+        "page": 8,
+        "chunk_id": "c8ecb419-906e-40d6-9750-a211d64a2cf2",
+        "score": 0.6251,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "P\uf35d\n\uf357.Carefully remove your air puri\ufb01er from the packaging box and plastic bag.\n\uf358.Remove the \ufb01lter and the adaptor from the air puri\ufb01er,remove the \nprotective plastic,and then insert the \ufb01lter into the unit.\n\uf359.Place it on a \ufb01rm,level and \ufb02at area.\n   ..."
+      }
+    ],
+    "latency_ms": 14689.38,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 20,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "procedure",
+      "intent_confidence": 0.7,
+      "matched_keywords": [
+        "step"
+      ],
+      "intent_reason": "Detected intent 'procedure' via matched triggers: 'step' (confidence: 0.70)",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.6251
+    },
+    "pass": false,
+    "failure_reason": "Missing expected keywords",
+    "stage_scores": {
+      "retrieval": true,
+      "selection": true,
+      "generation": false
+    }
+  },
+  {
+    "id": 15,
+    "category": "multi-step",
+    "question": "What are the step-by-step instructions for replacing the filter element?",
+    "expected_page": 13,
+    "returned_pages": [
+      13,
+      13,
+      13
+    ],
+    "expected_keywords": [
+      "disconnect",
+      "upside down",
+      "rotate",
+      "counterclockwise",
+      "clockwise"
+    ],
+    "answer": "Remove the air inlet grille counterclockwise and replace it with a new filter. Then, follow the direction arrow on the lower cover and rotate clockwise to secure it in place.",
+    "sources": [
+      {
+        "page": 13,
+        "chunk_id": "96123a3d-8b1d-463d-9e81-bbddacb75733",
+        "score": 0.5893,
+        "document_id": "7c8828be-526e-4bf5-9dd9-4c6dd003289b",
+        "preview": "\nthe air inlet grille counterclockwise and remove it, then replace with a \nnew \ufb01lter. Follow the direction arrow on the lower cover and rotate \nclockwise to secure in place.\nWarm Tips: It is recommended to replace the \ufb01lter element every \nthree month..."
+      },
+      {
+        "page": 13,
+        "chunk_id": "d9d2fdb0-d944-4de0-9ad2-42b3697aa9e7",
+        "score": 0.5893,
+        "document_id": "f92a1c7c-6f00-44b5-acfc-b1fb574e4fde",
+        "preview": "\nthe air inlet grille counterclockwise and remove it, then replace with a \nnew \ufb01lter. Follow the direction arrow on the lower cover and rotate \nclockwise to secure in place.\nWarm Tips: It is recommended to replace the \ufb01lter element every \nthree month..."
+      },
+      {
+        "page": 13,
+        "chunk_id": "a640e565-1ad9-4fb0-b30d-1acf62473244",
+        "score": 0.5893,
+        "document_id": "b392017d-bb5d-48fe-a2d5-7a74a61b0d59",
+        "preview": "\nthe air inlet grille counterclockwise and remove it, then replace with a \nnew \ufb01lter. Follow the direction arrow on the lower cover and rotate \nclockwise to secure in place.\nWarm Tips: It is recommended to replace the \ufb01lter element every \nthree month..."
+      }
+    ],
+    "latency_ms": 9646.31,
+    "diagnostics": {
+      "raw_count": 20,
+      "deduplicated_count": 20,
+      "filtered_count": 15,
+      "returned_count": 5,
+      "confidence": "Low",
+      "filter_reason": null,
+      "similarity_threshold": 0.4,
+      "top_k": 5,
+      "max_context_chars": 12000,
+      "intent": "procedure",
+      "intent_confidence": 0.9,
+      "matched_keywords": [
+        "instructions for",
+        "step"
+      ],
+      "intent_reason": "Detected intent 'procedure' via matched triggers: 'instructions for', 'step' (confidence: 0.90)",
+      "selected_chunks": 3,
+      "candidate_chunks": 5,
+      "selection_strategy": "top_3_standard_confidence",
+      "highest_similarity": 0.5893
+    },
+    "pass": true,
+    "failure_reason": null,
+    "stage_scores": {
+      "retrieval": true,
+      "selection": true,
+      "generation": true
+    }
+  }
+]
