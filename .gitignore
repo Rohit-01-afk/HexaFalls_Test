@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 *.so
 .Python
-env/
+.env/
 venv/
 .venv/
 ENV/
@@ -23,6 +23,10 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Node / Frontend
+node_modules/
+**/node_modules/
 
 # Environment variables
 .env
@@ -43,6 +47,9 @@ storage/chunks/*
 
 storage/embeddings/*
 !storage/embeddings/.gitkeep
+
+storage/users/*
+!storage/users/.gitkeep
 
 # IDEs
 .vscode/
@@ -70,3 +77,4 @@ storage/test_chroma/*
 Thumbs.db
 desktop.ini
 debug_logs
+frontend/

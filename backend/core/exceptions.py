@@ -10,20 +10,38 @@ from fastapi.responses import JSONResponse
 from backend.core.logging import logger
 
 
-class OllamaTimeoutError(Exception):
-    """Raised when Ollama generation times out."""
+class GroqTimeoutError(Exception):
+    """Raised when Groq API generation times out."""
 
     pass
 
 
-class OllamaConnectionError(Exception):
-    """Raised when communication with Ollama host fails (connection refused or network error)."""
+class GroqConnectionError(Exception):
+    """Raised when communication with Groq API fails (connection refused, missing key, or network error)."""
 
     pass
 
 
-class OllamaResponseError(Exception):
-    """Raised when Ollama returns a non-200 status code or malformed JSON payload."""
+class GroqResponseError(Exception):
+    """Raised when Groq returns a non-200 status code or malformed JSON payload."""
+
+    pass
+
+
+class GeminiTimeoutError(Exception):
+    """Raised when Gemini API generation times out."""
+
+    pass
+
+
+class GeminiConnectionError(Exception):
+    """Raised when communication with Gemini API fails (connection refused or network error)."""
+
+    pass
+
+
+class GeminiResponseError(Exception):
+    """Raised when Gemini returns a non-200 status code or malformed JSON payload."""
 
     pass
 
@@ -62,35 +80,68 @@ def register_exception_handlers(app: FastAPI) -> None:
             },
         )
 
-    @app.exception_handler(OllamaTimeoutError)
-    async def ollama_timeout_handler(request: Request, exc: OllamaTimeoutError) -> JSONResponse:
-        logger.warning("OllamaTimeoutError on %s %s: %s", request.method, request.url.path, str(exc))
+    @app.exception_handler(GroqTimeoutError)
+    async def groq_timeout_handler(request: Request, exc: GroqTimeoutError) -> JSONResponse:
+        logger.warning("GroqTimeoutError on %s %s: %s", request.method, request.url.path, str(exc))
         return JSONResponse(
             status_code=status.HTTP_504_GATEWAY_TIMEOUT,
             content={
-                "error": str(exc) or "Generation timed out while communicating with Ollama server.",
+                "error": str(exc) or "Generation timed out while communicating with Groq API.",
                 "status": status.HTTP_504_GATEWAY_TIMEOUT,
             },
         )
 
-    @app.exception_handler(OllamaConnectionError)
-    async def ollama_connection_handler(request: Request, exc: OllamaConnectionError) -> JSONResponse:
-        logger.warning("OllamaConnectionError on %s %s: %s", request.method, request.url.path, str(exc))
+    @app.exception_handler(GroqConnectionError)
+    async def groq_connection_handler(request: Request, exc: GroqConnectionError) -> JSONResponse:
+        logger.warning("GroqConnectionError on %s %s: %s", request.method, request.url.path, str(exc))
         return JSONResponse(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             content={
-                "error": str(exc) or "Ollama service is unavailable.",
+                "error": str(exc) or "Groq API service is unavailable.",
                 "status": status.HTTP_503_SERVICE_UNAVAILABLE,
             },
         )
 
-    @app.exception_handler(OllamaResponseError)
-    async def ollama_response_handler(request: Request, exc: OllamaResponseError) -> JSONResponse:
-        logger.error("OllamaResponseError on %s %s: %s", request.method, request.url.path, str(exc))
+    @app.exception_handler(GroqResponseError)
+    async def groq_response_handler(request: Request, exc: GroqResponseError) -> JSONResponse:
+        logger.error("GroqResponseError on %s %s: %s", request.method, request.url.path, str(exc))
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content={
-                "error": str(exc) or "Ollama returned a malformed response.",
+                "error": str(exc) or "Groq API returned a malformed response.",
+                "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            },
+        )
+
+    @app.exception_handler(GeminiTimeoutError)
+    async def gemini_timeout_handler(request: Request, exc: GeminiTimeoutError) -> JSONResponse:
+        logger.warning("GeminiTimeoutError on %s %s: %s", request.method, request.url.path, str(exc))
+        return JSONResponse(
+            status_code=status.HTTP_504_GATEWAY_TIMEOUT,
+            content={
+                "error": str(exc) or "Generation timed out while communicating with Gemini API.",
+                "status": status.HTTP_504_GATEWAY_TIMEOUT,
+            },
+        )
+
+    @app.exception_handler(GeminiConnectionError)
+    async def gemini_connection_handler(request: Request, exc: GeminiConnectionError) -> JSONResponse:
+        logger.warning("GeminiConnectionError on %s %s: %s", request.method, request.url.path, str(exc))
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content={
+                "error": str(exc) or "Gemini API service is unavailable.",
+                "status": status.HTTP_503_SERVICE_UNAVAILABLE,
+            },
+        )
+
+    @app.exception_handler(GeminiResponseError)
+    async def gemini_response_handler(request: Request, exc: GeminiResponseError) -> JSONResponse:
+        logger.error("GeminiResponseError on %s %s: %s", request.method, request.url.path, str(exc))
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={
+                "error": str(exc) or "Gemini API returned a malformed response.",
                 "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
             },
         )

@@ -12,10 +12,11 @@ from fastapi import HTTPException, status
 from backend.core.config import settings
 from backend.core.logging import logger
 from backend.schemas.processing import ProcessedPage, ProcessResponse
+from backend.services.image_analysis_service import image_analysis_service
 
 
 class PDFProcessingService:
-    """Handles PDF integrity validation, text extraction, page rendering, and metadata storage."""
+    """Handles PDF integrity validation, text extraction, page rendering, diagram analysis, and metadata storage."""
 
     @staticmethod
     def _find_pdf_path(document_id: str) -> Path:
@@ -58,7 +59,7 @@ class PDFProcessingService:
     @classmethod
     async def process_document(cls, document_id: str) -> ProcessResponse:
         """
-        Processes uploaded PDF manual by extracting page text, rendering page images, and saving metadata.
+        Processes uploaded PDF manual by extracting page text, rendering page images, analyzing diagrams, and saving metadata.
 
         Args:
             document_id: Document UUID identifier.
@@ -101,7 +102,7 @@ class PDFProcessingService:
 
         pages_metadata: List[ProcessedPage] = []
 
-        # 3. Process each page: extract text and render image
+        # 3. Process each page: extract text, render image, and analyze visual diagrams
         try:
             for index in range(total_pages):
                 page_num = index + 1
@@ -119,12 +120,19 @@ class PDFProcessingService:
 
                 relative_image_path = f"{settings.PAGE_IMAGE_STORAGE_PATH}/{document_id}/{image_filename}"
 
+                # Perform Gemini diagram / image analysis
+                diagram_analysis = await image_analysis_service.analyze_page_image(image_file_path, page_num)
+                if diagram_analysis:
+                    combined_text = f"{extracted_text}\n\n{diagram_analysis}".strip()
+                else:
+                    combined_text = extracted_text.strip()
+
                 page_record = ProcessedPage(
                     page_id=str(uuid.uuid4()),
                     document_id=document_id,
                     page_number=page_num,
                     image_path=relative_image_path,
-                    text=extracted_text,
+                    text=combined_text,
                 )
                 pages_metadata.append(page_record)
         except Exception as err:

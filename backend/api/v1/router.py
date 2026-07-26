@@ -14,9 +14,3 @@ api_router.include_router(chunk.router, tags=["chunk"])
 api_router.include_router(embed.router, tags=["embed"])
 api_router.include_router(search.router, tags=["search"])
 api_router.include_router(ask.router, tags=["ask"])
-
-
-
-
-
-

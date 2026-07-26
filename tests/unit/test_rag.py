@@ -1,5 +1,5 @@
 """
-Unit tests for Retrieval-Augmented Generation (RAG) services, prompt builder, Ollama integration, and endpoint.
+Unit tests for Retrieval-Augmented Generation (RAG) services, prompt builder, Gemini integration, and endpoint.
 """
 
 import json
@@ -29,13 +29,13 @@ from fastapi.testclient import TestClient
 
 from backend.core.config import settings
 from backend.core.exceptions import (
-    OllamaConnectionError,
-    OllamaResponseError,
-    OllamaTimeoutError,
+    GroqConnectionError,
+    GroqResponseError,
+    GroqTimeoutError,
 )
 from backend.main import app
 from backend.schemas.search import SearchResponse, SearchResult
-from backend.services.ollama_service import OllamaService
+from backend.services.groq_service import GroqService
 from backend.services.prompt_builder import Prompt, PromptBuilder, SYSTEM_PROMPT
 from backend.services.rag_service import RAGService
 
@@ -83,69 +83,7 @@ def test_prompt_builder_construction() -> None:
     assert "==========\nPage 19\nSimilarity: 0.88\nContent:\nUnscrew the four mounting bolts." in prompt.context
 
 
-
-# --- 2. OllamaService Unit Tests ---
-
-
-@pytest.mark.anyio
-async def test_ollama_service_successful_generation() -> None:
-    """Test successful answer generation from Ollama HTTP API."""
-    prompt = Prompt(system="Sys", context="[Page 1]\nTest context", user="Test Q")
-
-    mock_response = MagicMock()
-    mock_response.status_code = 200
-    mock_response.json.return_value = {"response": "Disconnect cable J7 completely."}
-
-    with patch("httpx.AsyncClient.post", new_callable=AsyncMock) as mock_post:
-        mock_post.return_value = mock_response
-
-        answer = await OllamaService.generate_answer(prompt)
-
-        assert answer == "Disconnect cable J7 completely."
-        assert mock_post.called
-
-
-@pytest.mark.anyio
-async def test_ollama_service_timeout() -> None:
-    """Test OllamaTimeoutError raised on httpx TimeoutException."""
-    prompt = Prompt(system="Sys", context="Ctx", user="User Q")
-
-    with patch("httpx.AsyncClient.post", new_callable=AsyncMock) as mock_post:
-        mock_post.side_effect = httpx.TimeoutException("Connection timed out")
-
-        with pytest.raises(OllamaTimeoutError):
-            await OllamaService.generate_answer(prompt)
-
-
-@pytest.mark.anyio
-async def test_ollama_service_connection_failure() -> None:
-    """Test OllamaConnectionError raised on httpx ConnectError."""
-    prompt = Prompt(system="Sys", context="Ctx", user="User Q")
-
-    with patch("httpx.AsyncClient.post", new_callable=AsyncMock) as mock_post:
-        mock_post.side_effect = httpx.ConnectError("Connection refused")
-
-        with pytest.raises(OllamaConnectionError):
-            await OllamaService.generate_answer(prompt)
-
-
-@pytest.mark.anyio
-async def test_ollama_service_malformed_response() -> None:
-    """Test OllamaResponseError raised on non-200 HTTP status or missing response field."""
-    prompt = Prompt(system="Sys", context="Ctx", user="User Q")
-
-    mock_response = MagicMock()
-    mock_response.status_code = 500
-    mock_response.text = "Internal Server Error"
-
-    with patch("httpx.AsyncClient.post", new_callable=AsyncMock) as mock_post:
-        mock_post.return_value = mock_response
-
-        with pytest.raises(OllamaResponseError):
-            await OllamaService.generate_answer(prompt)
-
-
-# --- 3. RAGService & API Endpoint Tests ---
+# --- 2. RAGService & API Endpoint Tests ---
 
 
 def test_ask_empty_question_validation() -> None:
@@ -195,7 +133,7 @@ async def test_ask_successful_rag_flow() -> None:
     )
 
     with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
-        "backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock
+        "backend.services.groq_service.GroqService.generate_answer", new_callable=AsyncMock
     ) as mock_gen:
         mock_search.return_value = mock_search_res
         mock_gen.return_value = "To remove the cooling fan, first disconnect cable J7."
@@ -213,8 +151,8 @@ async def test_ask_successful_rag_flow() -> None:
 
 
 @pytest.mark.anyio
-async def test_ask_ollama_service_unavailable_503() -> None:
-    """Test 503 response when OllamaService raises OllamaConnectionError."""
+async def test_ask_groq_service_unavailable_503() -> None:
+    """Test 503 response when GroqService raises GroqConnectionError."""
     mock_search_res = SearchResponse(
         query="cooling fan",
         count=1,
@@ -230,10 +168,10 @@ async def test_ask_ollama_service_unavailable_503() -> None:
     )
 
     with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
-        "backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock
+        "backend.services.groq_service.GroqService.generate_answer", new_callable=AsyncMock
     ) as mock_gen:
         mock_search.return_value = mock_search_res
-        mock_gen.side_effect = OllamaConnectionError("Ollama service is unavailable.")
+        mock_gen.side_effect = GroqConnectionError("Groq API service is unavailable.")
 
         response = client.post("/api/v1/ask", json={"question": "cooling fan"})
 
@@ -244,8 +182,8 @@ async def test_ask_ollama_service_unavailable_503() -> None:
 
 
 @pytest.mark.anyio
-async def test_ask_ollama_timeout_504() -> None:
-    """Test 504 response when OllamaService raises OllamaTimeoutError."""
+async def test_ask_groq_timeout_504() -> None:
+    """Test 504 response when GroqService raises GroqTimeoutError."""
     mock_search_res = SearchResponse(
         query="cooling fan",
         count=1,
@@ -261,10 +199,10 @@ async def test_ask_ollama_timeout_504() -> None:
     )
 
     with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
-        "backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock
+        "backend.services.groq_service.GroqService.generate_answer", new_callable=AsyncMock
     ) as mock_gen:
         mock_search.return_value = mock_search_res
-        mock_gen.side_effect = OllamaTimeoutError("Generation timed out while communicating with Ollama server.")
+        mock_gen.side_effect = GroqTimeoutError("Generation timed out while communicating with Groq API.")
 
         response = client.post("/api/v1/ask", json={"question": "cooling fan"})
 
@@ -328,7 +266,7 @@ async def test_ask_soft_threshold_fallback_success() -> None:
     )
 
     with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
-        "backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock
+        "backend.services.groq_service.GroqService.generate_answer", new_callable=AsyncMock
     ) as mock_gen:
         mock_search.return_value = mock_search_res
         mock_gen.return_value = "Marginal procedure summary answer."
@@ -377,7 +315,6 @@ async def test_ask_soft_threshold_disabled_behavior() -> None:
         assert data["sources"] == []
 
 
-
 @pytest.mark.anyio
 async def test_ask_metrics_diagnostics_and_rich_metadata() -> None:
     """Test confidence, diagnostics, performance metrics, and rich source metadata in successful response."""
@@ -399,7 +336,7 @@ async def test_ask_metrics_diagnostics_and_rich_metadata() -> None:
     )
 
     with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
-        "backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock
+        "backend.services.groq_service.GroqService.generate_answer", new_callable=AsyncMock
     ) as mock_gen:
         mock_search.return_value = mock_search_res
         mock_gen.return_value = "Unplug cable J7 first."
@@ -443,7 +380,7 @@ async def test_ask_with_document_id_filter() -> None:
     )
 
     with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
-        "backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock
+        "backend.services.groq_service.GroqService.generate_answer", new_callable=AsyncMock
     ) as mock_gen:
         mock_search.return_value = mock_search_res
         mock_gen.return_value = "Engineering Mathematics-I covers Linear Algebra and Calculus."
@@ -454,7 +391,7 @@ async def test_ask_with_document_id_filter() -> None:
         data = response.json()
         assert data["question"] == "Engineering Mathematics"
         assert data["sources"][0]["document_id"] == doc_id
-        
+
         # Verify SearchService.search was called with SearchRequest containing document_id
         called_req = mock_search.call_args[0][0]
         assert called_req.document_id == doc_id
@@ -481,7 +418,7 @@ async def test_ask_query_intent_diagnostics() -> None:
     )
 
     with patch("backend.services.search_service.SearchService.search", new_callable=AsyncMock) as mock_search, patch(
-        "backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock
+        "backend.services.groq_service.GroqService.generate_answer", new_callable=AsyncMock
     ) as mock_gen:
         mock_search.return_value = mock_search_res
         mock_gen.return_value = "Disconnect cable J7 first."
@@ -498,7 +435,3 @@ async def test_ask_query_intent_diagnostics() -> None:
         assert "replace" in diag["matched_keywords"]
         assert "intent_reason" in diag
         assert "procedure" in diag["intent_reason"]
-
-
-
-

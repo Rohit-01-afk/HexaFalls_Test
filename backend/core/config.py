@@ -3,8 +3,13 @@ Core configuration settings for Blueprint Eye application.
 Loaded from environment variables or .env file.
 """
 
-from typing import List, Optional
+from typing import Any, List, Optional, Union
+from dotenv import load_dotenv
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Load .env file automatically into environment
+load_dotenv()
 
 
 class Settings(BaseSettings):
@@ -14,7 +19,21 @@ class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     ENVIRONMENT: str = "development"
     LOG_LEVEL: str = "INFO"
-    ALLOWED_ORIGINS: List[str] = ["*"]
+    ALLOWED_ORIGINS: Union[List[str], str] = ["*"]
+
+    @field_validator("ALLOWED_ORIGINS", mode="after")
+    @classmethod
+    def parse_allowed_origins(cls, v: Any) -> List[str]:
+        if isinstance(v, str):
+            v_str = v.strip()
+            if v_str.startswith("[") and v_str.endswith("]"):
+                try:
+                    import json
+                    return json.loads(v_str)
+                except Exception:
+                    pass
+            return [item.strip() for item in v_str.split(",") if item.strip()]
+        return v
 
     # Upload Settings
     MAX_UPLOAD_SIZE_MB: int = 50
@@ -25,6 +44,11 @@ class Settings(BaseSettings):
     PAGE_IMAGE_DPI: int = 150
     PAGE_IMAGE_STORAGE_PATH: str = "storage/page_images"
     METADATA_STORAGE_PATH: str = "storage/metadata"
+
+    # Gemini Image/Diagram Analysis Settings
+    GEMINI_API_KEY: Optional[str] = None
+    GEMINI_MODEL: str = "gemini-1.5-flash"
+    ENABLE_IMAGE_ANALYSIS: bool = True
 
     # Chunking Settings
     CHUNK_SIZE: int = 500
@@ -37,21 +61,28 @@ class Settings(BaseSettings):
     CHROMA_PATH: str = "storage/chromadb"
 
     # Search Settings
-    DEFAULT_TOP_K: int = 5
+    DEFAULT_TOP_K: int = 3
     MAX_TOP_K: int = 20
 
-    # Ollama & RAG Settings
-    OLLAMA_HOST: str = "http://localhost:11434"
-    OLLAMA_MODEL: str = "gemma4:e4b"
-    OLLAMA_TIMEOUT: float = 120.0
-    OLLAMA_TEMPERATURE: float = 0.0
-    OLLAMA_TOP_P: float = 0.9
-    OLLAMA_NUM_PREDICT: int = 512
-    OLLAMA_REPEAT_PENALTY: float = 1.1
-    OLLAMA_SEED: Optional[int] = 42
+    # Groq API Settings for RAG Answer Generation
+    GROQ_API_KEY: Optional[str] = None
+    GROQ_MODEL: str = "llama-3.3-70b-versatile"
+    GROQ_TIMEOUT: float = 60.0
+    GROQ_TEMPERATURE: float = 0.0
+    GROQ_TOP_P: float = 0.9
+    GROQ_MAX_OUTPUT_TOKENS: int = 512
+
+    # Gemini Image/Diagram Analysis Settings
+    GEMINI_API_KEY: Optional[str] = None
+    GEMINI_MODEL: str = "gemini-1.5-flash"
+    ENABLE_IMAGE_ANALYSIS: bool = True
+    GEMINI_TIMEOUT: float = 60.0
+    GEMINI_TEMPERATURE: float = 0.0
+    GEMINI_TOP_P: float = 0.9
+    GEMINI_MAX_OUTPUT_TOKENS: int = 512
     MAX_GENERATION_RETRIES: int = 1
 
-    RAG_TOP_K: int = 5
+    RAG_TOP_K: int = 3
     RAG_SIMILARITY_THRESHOLD: float = 0.45
 
     RAG_MAX_CONTEXT_CHARS: int = 12000

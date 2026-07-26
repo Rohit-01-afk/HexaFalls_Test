@@ -62,7 +62,7 @@ class RetrievalMetrics(BaseModel):
     search_ms: float = Field(..., description="Semantic vector search execution time in milliseconds")
     filter_ms: float = Field(..., description="Retrieval filtering execution time in milliseconds")
     prompt_ms: float = Field(..., description="Prompt construction execution time in milliseconds")
-    generation_ms: float = Field(..., description="Ollama LLM generation execution time in milliseconds")
+    generation_ms: float = Field(..., description="Groq LLM generation execution time in milliseconds")
     total_ms: float = Field(..., description="Total RAG request processing execution time in milliseconds")
 
 

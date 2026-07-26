@@ -10,7 +10,7 @@ from backend.core.config import settings
 from backend.core.logging import logger
 from backend.schemas.query_intent import QueryIntent
 from backend.services.evidence_service import PreparedEvidence
-from backend.services.ollama_service import OllamaService
+from backend.services.groq_service import GroqService
 from backend.services.prompt_builder import PromptBuilder
 from backend.services.response_validator import ResponseValidator, ValidationResult
 
@@ -52,7 +52,7 @@ class RecoveryHandler:
         raw_chunk_count: int = 0,
         filtered_chunk_count: int = 0,
         prompt_builder: Optional[Type[PromptBuilder]] = None,
-        ollama_service: Optional[Type[OllamaService]] = None,
+        groq_service: Optional[Type[GroqService]] = None,
         response_validator: Optional[Type[ResponseValidator]] = None,
     ) -> RecoveryResult:
         """
@@ -67,14 +67,14 @@ class RecoveryHandler:
             raw_chunk_count: Raw chunk count before filtering.
             filtered_chunk_count: Filtered chunk count after filtering.
             prompt_builder: Optional PromptBuilder override.
-            ollama_service: Optional OllamaService override.
+            groq_service: Optional GroqService override.
             response_validator: Optional ResponseValidator override.
 
         Returns:
             RecoveryResult model.
         """
         prompt_cls = prompt_builder or PromptBuilder
-        ollama_cls = ollama_service or OllamaService
+        groq_cls = groq_service or GroqService
         validator_cls = response_validator or ResponseValidator
 
         max_retries = getattr(settings, "MAX_GENERATION_RETRIES", 1)
@@ -112,9 +112,9 @@ class RecoveryHandler:
         if getattr(settings, "DEBUG_RAG_PIPELINE", False):
             logger.info("\n===== RECOVERY PROMPT =====\n\nGeneration ID: %s\n\n%s\n", generation_id, rendered_rec_prompt)
 
-        # 2. Execute retry generation call via OllamaService
+        # 2. Execute retry generation call via GeminiService
         try:
-            retry_answer = await ollama_cls.generate_answer(
+            retry_answer = await groq_cls.generate_answer(
                 recovery_prompt,
                 raw_chunk_count=raw_chunk_count,
                 filtered_chunk_count=filtered_chunk_count,

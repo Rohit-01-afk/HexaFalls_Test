@@ -18,7 +18,8 @@ from backend.schemas.query_intent import QueryIntent
 from backend.schemas.search import SearchRequest
 from backend.services.context_selector import ContextSelector
 from backend.services.evidence_service import EvidencePreparer
-from backend.services.ollama_service import OllamaService
+from backend.services.gemini_service import GeminiService
+from backend.services.groq_service import GroqService
 from backend.services.prompt_builder import PromptBuilder
 from backend.services.query_understanding_service import QueryUnderstandingService
 from backend.services.recovery_handler import RecoveryHandler
@@ -98,7 +99,8 @@ class RAGService:
         retrieval_filter: Optional[Type[RetrievalFilter]] = None,
         search_service: Optional[Type[SearchService]] = None,
         prompt_builder: Optional[Type[PromptBuilder]] = None,
-        ollama_service: Optional[Type[OllamaService]] = None,
+        groq_service: Optional[Type[GroqService]] = None,
+        gemini_service: Optional[Type[GeminiService]] = None,
         query_understanding_service: Optional[Type[QueryUnderstandingService]] = None,
         evidence_preparer: Optional[Type[EvidencePreparer]] = None,
         response_validator: Optional[Type[ResponseValidator]] = None,
@@ -113,7 +115,8 @@ class RAGService:
             retrieval_filter: Optional override for RetrievalFilter class.
             search_service: Optional override for SearchService class.
             prompt_builder: Optional override for PromptBuilder class.
-            ollama_service: Optional override for OllamaService class.
+            groq_service: Optional override for GroqService class.
+            gemini_service: Optional override for GeminiService class.
             query_understanding_service: Optional override for QueryUnderstandingService class.
             evidence_preparer: Optional override for EvidencePreparer class.
             response_validator: Optional override for ResponseValidator class.
@@ -146,7 +149,8 @@ class RAGService:
         filter_cls = retrieval_filter or cls.retrieval_filter
         search_cls = search_service or SearchService
         prompt_cls = prompt_builder or PromptBuilder
-        ollama_cls = ollama_service or OllamaService
+        groq_cls = groq_service or GroqService
+        gemini_cls = gemini_service or GeminiService
         query_cls = query_understanding_service or QueryUnderstandingService
         evidence_cls = evidence_preparer or EvidencePreparer
         validator_cls = response_validator or ResponseValidator
@@ -241,7 +245,7 @@ class RAGService:
 
                     # 6a. Generation
                     t0 = time.perf_counter()
-                    initial_generated_answer = await ollama_cls.generate_answer(
+                    initial_generated_answer = await groq_cls.generate_answer(
                         prompt,
                         raw_chunk_count=raw_count,
                         filtered_chunk_count=returned_count,
@@ -266,7 +270,7 @@ class RAGService:
                             raw_chunk_count=raw_count,
                             filtered_chunk_count=returned_count,
                             prompt_builder=prompt_cls,
-                            ollama_service=ollama_cls,
+                            groq_service=groq_cls,
                             response_validator=validator_cls,
                         )
                         final_answer = recovery_res.answer
@@ -371,7 +375,7 @@ class RAGService:
 
         # 6. LLM Generation
         t0 = time.perf_counter()
-        initial_generated_answer = await ollama_cls.generate_answer(
+        initial_generated_answer = await groq_cls.generate_answer(
             prompt,
             raw_chunk_count=raw_count,
             filtered_chunk_count=returned_count,
@@ -396,7 +400,7 @@ class RAGService:
                 raw_chunk_count=raw_count,
                 filtered_chunk_count=returned_count,
                 prompt_builder=prompt_cls,
-                ollama_service=ollama_cls,
+                groq_service=groq_cls,
                 response_validator=validator_cls,
             )
             final_answer = recovery_res.answer

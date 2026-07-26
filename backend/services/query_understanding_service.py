@@ -12,7 +12,7 @@ class QueryUnderstandingService:
     """
     Analyzes technical user queries to extract structured intent metadata,
     confidence ratings, and matched keyword triggers.
-    Does NOT perform vector retrieval, Ollama generation, or prompt modification.
+    Does NOT perform vector retrieval, Gemini generation, or prompt modification.
     """
 
     # Category pattern triggers: (intent_type, phrase_patterns, keyword_triggers)

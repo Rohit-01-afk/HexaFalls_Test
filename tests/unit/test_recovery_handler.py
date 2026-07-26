@@ -25,7 +25,7 @@ async def test_recovery_handler_successful_retry(sample_evidence) -> None:
     gen_id = "gen-test-123"
     initial_val = ValidationResult(valid=False, reason=ValidationReason.EMPTY, response_length=0)
 
-    with patch("backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock) as mock_gen:
+    with patch("backend.services.groq_service.GroqService.generate_answer", new_callable=AsyncMock) as mock_gen:
         mock_gen.return_value = "Disconnect power harness W-100."
 
         res = await RecoveryHandler.attempt_recovery(
@@ -48,7 +48,7 @@ async def test_recovery_handler_failed_retry_reverts_to_fallback(sample_evidence
     gen_id = "gen-test-456"
     initial_val = ValidationResult(valid=False, reason=ValidationReason.PUNCTUATION_ONLY, response_length=3)
 
-    with patch("backend.services.ollama_service.OllamaService.generate_answer", new_callable=AsyncMock) as mock_gen:
+    with patch("backend.services.groq_service.GroqService.generate_answer", new_callable=AsyncMock) as mock_gen:
         mock_gen.return_value = "..."  # Still invalid punctuation
 
         res = await RecoveryHandler.attempt_recovery(

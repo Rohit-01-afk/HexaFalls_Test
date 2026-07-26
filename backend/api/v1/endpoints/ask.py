@@ -17,15 +17,15 @@ router = APIRouter()
     response_model=AskResponse,
     status_code=status.HTTP_200_OK,
     summary="RAG question answering over technical manuals",
-    description="Performs semantic retrieval against technical manuals and generates grounded answers using Ollama.",
+    description="Performs semantic retrieval against technical manuals and generates grounded answers using Groq API (Llama 3.3).",
     responses={
         200: {
             "description": "Question answered successfully using grounded manual context",
             "model": AskResponse,
         },
         422: {"description": "Empty or whitespace-only question payload"},
-        503: {"description": "Ollama service unavailable"},
-        504: {"description": "Ollama generation timeout"},
+        503: {"description": "Groq API service unavailable"},
+        504: {"description": "Groq API generation timeout"},
     },
 )
 async def ask_question(request: AskRequest) -> AskResponse:

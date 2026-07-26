@@ -46,6 +46,10 @@ register_exception_handlers(app)
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
+
+
 # Root level /health endpoint
 @app.get("/health", response_model=HealthResponse, status_code=200, tags=["health"])
 async def root_health() -> HealthResponse:
@@ -53,4 +57,10 @@ async def root_health() -> HealthResponse:
     Root level health check endpoint returning system operational status.
     """
     return HealthResponse(status="ok")
+
+
+# Mount static frontend directory at root / if present
+frontend_dir = Path("frontend")
+if frontend_dir.exists():
+    app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
 
