@@ -1,0 +1,427 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg-deep: #060c06;
+  --bg-panel: #1e1e1e;
+  --border-gray: #3e3f3e;
+  --text-muted: #a8baa8;
+  --accent-emerald: #54c750;
+  --text-light: #f0f2f0;
+  --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  
+  --section-py: 5.5rem;
+  --card-radius: 18px;
+}
+
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-light);
+  font-family: var(--font-main);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-emerald);
+  border-radius: 4px;
+}
+
+/* Brightened Secondary Text Color Replacement for #6c757d */
+.text-secondary {
+  color: #c5d5c5 !important;
+}
+
+/* Brand SVG Icon Z-Axis Rotational Motion */
+.brand-icon-svg {
+  display: inline-block;
+  vertical-align: middle;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 0 6px rgba(84, 199, 80, 0.5));
+  animation: brandIconRotateZ 8s linear infinite;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+@keyframes brandIconRotateZ {
+  0% {
+    transform: rotateZ(0deg);
+    filter: drop-shadow(0 0 6px rgba(84, 199, 80, 0.4));
+  }
+  50% {
+    transform: rotateZ(180deg);
+    filter: drop-shadow(0 0 14px rgba(84, 199, 80, 0.85));
+  }
+  100% {
+    transform: rotateZ(360deg);
+    filter: drop-shadow(0 0 6px rgba(84, 199, 80, 0.4));
+  }
+}
+
+.navbar-brand:hover .brand-icon-svg,
+.brand-icon-svg:hover {
+  transform: scale(1.2) rotateZ(0deg);
+  filter: drop-shadow(0 0 16px rgba(84, 199, 80, 0.95));
+}
+
+.brand-title-text {
+  font-size: 1.65rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.5px;
+}
+
+/* Hero Section Custom Blueprint Grid Pattern (Brand Green Palette) */
+.hero-blueprint-bg {
+  position: relative;
+  background-color: var(--bg-deep);
+  background-image: 
+    repeating-linear-gradient(to right, transparent 0, transparent 1.66px, var(--bg-deep) 1.66px, var(--bg-deep) 5px, transparent 5px, transparent 6.66px),
+    repeating-linear-gradient(to bottom, transparent 0, transparent 1.66px, var(--bg-deep) 1.66px, var(--bg-deep) 5px, transparent 5px, transparent 6.66px),
+    linear-gradient(to bottom, rgba(84, 199, 80, 0.18) 0.6px, transparent 0.6px),
+    linear-gradient(to right, rgba(84, 199, 80, 0.18) 0.6px, transparent 0.6px);
+  background-size: 100% 100%, 100% 100%, 20px 20px, 20px 20px;
+  background-position: 0 0, 0 0, 0 -0.2px, -0.2px 0;
+}
+
+/* Smooth Fade In/Out Gradient Overlay at bottom of Hero section */
+.hero-blueprint-bg::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent 0%, var(--bg-deep) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Footer Custom Blueprint Grid Pattern with Top Fade Overlay */
+.footer-blueprint-bg {
+  position: relative;
+  background-color: var(--bg-deep);
+  background-image: 
+    repeating-linear-gradient(to right, transparent 0, transparent 1.66px, var(--bg-deep) 1.66px, var(--bg-deep) 5px, transparent 5px, transparent 6.66px),
+    repeating-linear-gradient(to bottom, transparent 0, transparent 1.66px, var(--bg-deep) 1.66px, var(--bg-deep) 5px, transparent 5px, transparent 6.66px),
+    linear-gradient(to bottom, rgba(84, 199, 80, 0.15) 0.6px, transparent 0.6px),
+    linear-gradient(to right, rgba(84, 199, 80, 0.15) 0.6px, transparent 0.6px);
+  background-size: 100% 100%, 100% 100%, 20px 20px, 20px 20px;
+  background-position: 0 0, 0 0, 0 -0.2px, -0.2px 0;
+}
+
+.footer-blueprint-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to bottom, var(--bg-deep) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Minimalist Cards */
+.bp-card {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-gray);
+  border-radius: var(--card-radius);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.bp-card:hover {
+  border-color: var(--accent-emerald);
+  box-shadow: 0 12px 32px rgba(84, 199, 80, 0.15);
+}
+
+.bp-nav {
+  background-color: rgba(6, 12, 6, 0.95);
+  border-bottom: 1px solid var(--border-gray);
+  backdrop-filter: blur(12px);
+}
+
+.text-emerald {
+  color: var(--accent-emerald) !important;
+}
+
+.bg-emerald {
+  background-color: var(--accent-emerald) !important;
+  color: #060c06 !important;
+}
+
+/* Uniform White Nav Buttons */
+.btn-nav-white {
+  background-color: #ffffff !important;
+  color: #060c06 !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  padding: 9px 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15) !important;
+  line-height: 1.2 !important;
+}
+
+.btn-nav-white:hover,
+.btn-nav-white:active,
+.btn-nav-white:focus {
+  background-color: var(--accent-emerald) !important;
+  color: #060c06 !important;
+  border: none !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 6px 18px rgba(84, 199, 80, 0.4) !important;
+}
+
+/* Fixed Know More Button - Only Change Background Color to Green on Hover */
+.btn-know-more,
+.btn-know-more:hover,
+.btn-know-more:active,
+.btn-know-more:focus,
+.btn-know-more:focus-visible {
+  border-radius: 9999px !important;
+  -webkit-border-radius: 9999px !important;
+  -moz-border-radius: 9999px !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  border: none !important;
+}
+
+.btn-know-more {
+  background-color: #ffffff !important;
+  color: #060c06 !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  padding: 9px 20px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.btn-know-more:hover,
+.btn-know-more:active,
+.btn-know-more:focus {
+  background-color: var(--accent-emerald) !important;
+  color: #060c06 !important;
+}
+
+/* Test Chatbot Dashboard Button */
+.btn-hero-green {
+  background-color: var(--accent-emerald) !important;
+  color: #060c06 !important;
+  font-weight: 800 !important;
+  font-size: 15px !important;
+  border-radius: 9999px !important;
+  border: none !important;
+  padding: 12px 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 6px 18px rgba(84, 199, 80, 0.35) !important;
+}
+
+.btn-hero-green:hover,
+.btn-hero-green:active,
+.btn-hero-green:focus {
+  background-color: #ffffff !important;
+  color: #060c06 !important;
+  border: none !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.4) !important;
+}
+
+.badge-emerald {
+  background-color: rgba(84, 199, 80, 0.15);
+  color: var(--accent-emerald);
+  border: 1px solid rgba(84, 199, 80, 0.3);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* Custom Pointed SVG Arrow */
+.custom-pointed-arrow {
+  position: absolute;
+  top: -80px;
+  left: -70px;
+  width: 170px;
+  height: 210px;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 0 10px rgba(84, 199, 80, 0.4));
+  animation: floatPointedArrow 3.5s ease-in-out infinite;
+}
+
+@keyframes floatPointedArrow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(1.5deg);
+  }
+}
+
+/* Square Icon Box with Smooth Border Radius for Capability Cards */
+.capability-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(84, 199, 80, 0.12);
+  border: 1px solid rgba(84, 199, 80, 0.25);
+  color: var(--accent-emerald);
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+/* Interactive Capabilities Expandable Cards */
+.capability-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  min-height: 180px;
+  padding: 1.75rem !important;
+}
+
+.capability-card .card-hidden-content {
+  max-height: 0px;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.capability-card:hover {
+  transform: translateY(-4px);
+}
+
+.capability-card:hover .card-hidden-content {
+  max-height: 300px;
+  opacity: 1;
+  margin-top: 1rem;
+}
+
+.chat-bubble-user {
+  background-color: var(--accent-emerald);
+  color: #060c06;
+  font-weight: 600;
+  border-radius: 14px 14px 2px 14px;
+}
+
+.chat-bubble-ai {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-gray);
+  color: var(--text-light);
+  border-radius: 14px 14px 14px 2px;
+}
+
+/* User Custom Workbench Themes & State Styles */
+.dashboard-workbench-bg {
+  background-color: #040904 !important;
+  background-image: 
+    radial-gradient(rgba(84, 199, 80, 0.25) 1.2px, transparent 1.2px),
+    repeating-linear-gradient(to right, transparent 0, transparent 1.66px, #040904 1.66px, #040904 5px, transparent 5px, transparent 6.66px),
+    repeating-linear-gradient(to bottom, transparent 0, transparent 1.66px, #040904 1.66px, #040904 5px, transparent 5px, transparent 6.66px),
+    linear-gradient(to bottom, rgba(84, 199, 80, 0.15) 0.6px, transparent 0.6px),
+    linear-gradient(to right, rgba(84, 199, 80, 0.15) 0.6px, transparent 0.6px);
+  background-size: 24px 24px, 100% 100%, 100% 100%, 24px 24px, 24px 24px;
+  background-position: 0 0, 0 0, 0 0, 0 -0.2px, -0.2px 0;
+}
+
+.dashboard-card {
+  background-color: #070b07 !important;
+  border: 1px solid #1c2b1c !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Error Messages: Red Background with Pure White Text */
+.bp-alert-error,
+.bp-badge-error,
+.bp-msg-error {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+  border: 1px solid #ef4444 !important;
+}
+
+/* Success Buttons & Badges: Green Background with White Text */
+.btn-success-custom,
+.bp-badge-success {
+  background-color: #16a34a !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.4) !important;
+}
+
+.btn-success-custom:hover,
+.btn-success-custom:focus,
+.btn-success-custom:active {
+  background-color: #15803d !important;
+  color: #ffffff !important;
+}
+
+/* Working State Buttons & Badges: Blue Background with White Text */
+.btn-working-custom,
+.bp-badge-working {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4) !important;
+}
+
+.btn-working-custom:hover,
+.btn-working-custom:focus,
+.btn-working-custom:active {
+  background-color: #1d4ed8 !important;
+  color: #ffffff !important;
+}
+
+/* Universal Subtle Micro-Animations for All Buttons */
+button,
+.btn,
+.btn-success-custom,
+.btn-working-custom,
+.btn-hero-green,
+.btn-nav-white,
+.btn-know-more {
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.22s ease !important;
+}
+
+button:hover,
+.btn:hover,
+.btn-success-custom:hover,
+.btn-working-custom:hover,
+.btn-hero-green:hover,
+.btn-nav-white:hover {
+  transform: translateY(-1.5px) scale(1.015) !important;
+}
+
+button:active,
+.btn:active,
+.btn-success-custom:active,
+.btn-working-custom:active,
+.btn-hero-green:active {
+  transform: translateY(0.5px) scale(0.985) !important;
+}
+
+
