@@ -9,9 +9,7 @@ client = TestClient(app)
 
 
 def test_frontend_index_route() -> None:
-    """Verify GET / serves HTML frontend testing dashboard."""
-    response = client.get("/")
+    """Verify backend health endpoint is accessible when frontend runs on port 3000."""
+    response = client.get("/health")
     assert response.status_code == 200
-    assert "text/html" in response.headers.get("content-type", "")
-    assert "BLUEPRINT" in response.text
-    assert "EYE" in response.text
+    assert response.json() == {"status": "ok"}

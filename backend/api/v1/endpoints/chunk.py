@@ -25,6 +25,12 @@ router = APIRouter()
         404: {"description": "Document metadata not found"},
     },
 )
+@router.post(
+    "/pdf/chunk/{document_id}",
+    response_model=ChunkGenerationResponse,
+    status_code=status.HTTP_200_OK,
+    include_in_schema=False,
+)
 async def chunk_document(
     document_id: str = Path(..., description="Unique UUID identifier of the document to chunk")
 ) -> ChunkGenerationResponse:

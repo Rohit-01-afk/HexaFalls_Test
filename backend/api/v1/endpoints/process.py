@@ -25,6 +25,12 @@ router = APIRouter()
         404: {"description": "Document ID not found in storage"},
     },
 )
+@router.post(
+    "/pdf/process/{document_id}",
+    response_model=ProcessResponse,
+    status_code=status.HTTP_200_OK,
+    include_in_schema=False,
+)
 async def process_pdf(
     document_id: str = Path(..., description="Unique UUID identifier of the document to process")
 ) -> ProcessResponse:

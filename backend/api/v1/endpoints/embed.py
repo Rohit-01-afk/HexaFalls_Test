@@ -25,6 +25,12 @@ router = APIRouter()
         404: {"description": "Chunk metadata not found for document"},
     },
 )
+@router.post(
+    "/pdf/embed/{document_id}",
+    response_model=EmbeddingResponse,
+    status_code=status.HTTP_200_OK,
+    include_in_schema=False,
+)
 async def embed_document(
     document_id: str = Path(..., description="Unique UUID identifier of the document to embed")
 ) -> EmbeddingResponse:

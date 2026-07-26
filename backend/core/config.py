@@ -61,7 +61,7 @@ class Settings(BaseSettings):
     CHROMA_PATH: str = "storage/chromadb"
 
     # Search Settings
-    DEFAULT_TOP_K: int = 3
+    DEFAULT_TOP_K: int = 5
     MAX_TOP_K: int = 20
 
     # Groq API Settings for RAG Answer Generation
@@ -82,7 +82,7 @@ class Settings(BaseSettings):
     GEMINI_MAX_OUTPUT_TOKENS: int = 512
     MAX_GENERATION_RETRIES: int = 1
 
-    RAG_TOP_K: int = 3
+    RAG_TOP_K: int = 5
     RAG_SIMILARITY_THRESHOLD: float = 0.45
 
     RAG_MAX_CONTEXT_CHARS: int = 12000

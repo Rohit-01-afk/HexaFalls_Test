@@ -30,14 +30,25 @@ app = FastAPI(
 )
 
 # Configure CORS
-if settings.ALLOWED_ORIGINS:
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=settings.ALLOWED_ORIGINS,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
+if isinstance(settings.ALLOWED_ORIGINS, list):
+    for origin in settings.ALLOWED_ORIGINS:
+        if origin and origin not in origins and origin != "*":
+            origins.append(origin)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins if "*" not in settings.ALLOWED_ORIGINS else ["*"],
+    allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Register Exception Handlers
 register_exception_handlers(app)
@@ -59,8 +70,8 @@ async def root_health() -> HealthResponse:
     return HealthResponse(status="ok")
 
 
-# Mount static frontend directory at root / if present
-frontend_dir = Path("frontend")
-if frontend_dir.exists():
+# Mount static frontend directory at root / only if a static index.html exists
+frontend_index = Path("frontend/index.html")
+if frontend_index.exists():
     app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
 
